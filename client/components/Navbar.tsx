@@ -41,13 +41,13 @@ const Navbar = () => {
                             <Button variant='outline'>{user?.fullName} <User size={18} className="mx-1" /></Button>
                         </SheetClose>
 
-                        <SheetClose asChild>
+                        {/* <SheetClose asChild>
                             <Button variant='outline'>Dashboard <CircleGauge size={18} className="mx-1" /></Button>
                         </SheetClose>
 
                         <SheetClose asChild>
                             <Button variant='outline'>Settings<Settings size={18} className="mx-1" /></Button>
-                        </SheetClose>
+                        </SheetClose> */}
 
                         <SignOutButton>
                             <SheetClose asChild>
@@ -70,14 +70,14 @@ const Navbar = () => {
                 </SignUpButton>
             </SignedOut>
             <SignedIn>
-                <Button variant='outline'>Dashboard <CircleGauge size={18} className="mx-1" /></Button>
+                {/* <Button variant='outline'>Dashboard <CircleGauge size={18} className="mx-1" /></Button> */}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant='outline'>
                             {user?.fullName} <User size={18} className="mx-1" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent>
+                    {/* <DropdownMenuContent>
                         <DropdownMenuItem>
                             <User className="mr-2 h-4 w-4" />
                             <span>View Profile</span>
@@ -93,7 +93,7 @@ const Navbar = () => {
                                 <span>Log Out</span>
                             </DropdownMenuItem>
                         </SignOutButton>
-                    </DropdownMenuContent>
+                    </DropdownMenuContent> */}
                 </DropdownMenu>
             </SignedIn>
         </div>
