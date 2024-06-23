@@ -5,11 +5,14 @@ import { ArrowUpRightFromSquare, CircleGauge, LogIn, LogOut, Menu, PenLine, Plus
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { SignOutButton, SignedIn, SignedOut, useUser, SignInButton, SignUpButton } from "@clerk/clerk-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
   
 
 const Navbar = () => {
 
     const { user } = useUser()
+    const router = useRouter()
 
   return (
     <nav className="p-4 w-full flex justify-between items-center z-10 dark:bg-[#0c0a09] bg-white fixed top-0">
@@ -40,14 +43,9 @@ const Navbar = () => {
                         <SheetClose asChild>
                             <Button variant='outline'>{user?.fullName} <User size={18} className="mx-1" /></Button>
                         </SheetClose>
-
-                        {/* <SheetClose asChild>
-                            <Button variant='outline'>Dashboard <CircleGauge size={18} className="mx-1" /></Button>
-                        </SheetClose>
-
                         <SheetClose asChild>
                             <Button variant='outline'>Settings<Settings size={18} className="mx-1" /></Button>
-                        </SheetClose> */}
+                        </SheetClose>
 
                         <SignOutButton>
                             <SheetClose asChild>
@@ -70,14 +68,14 @@ const Navbar = () => {
                 </SignUpButton>
             </SignedOut>
             <SignedIn>
-                {/* <Button variant='outline'>Dashboard <CircleGauge size={18} className="mx-1" /></Button> */}
+                {/* <Button variant='outline' onClick={() => router.push('/dashboard')}>Dashboard <CircleGauge size={18} className="mx-1" /></Button> */}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant='outline'>
                             {user?.fullName} <User size={18} className="mx-1" />
                         </Button>
                     </DropdownMenuTrigger>
-                    {/* <DropdownMenuContent>
+                    <DropdownMenuContent>
                         <DropdownMenuItem>
                             <User className="mr-2 h-4 w-4" />
                             <span>View Profile</span>
@@ -93,7 +91,7 @@ const Navbar = () => {
                                 <span>Log Out</span>
                             </DropdownMenuItem>
                         </SignOutButton>
-                    </DropdownMenuContent> */}
+                    </DropdownMenuContent>
                 </DropdownMenu>
             </SignedIn>
         </div>
