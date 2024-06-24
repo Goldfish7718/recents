@@ -1,0 +1,54 @@
+{
+    "transformedSummaries": [
+        {
+            "title": "Apple Seeks Chinese AI Partner for Censored 'Apple Intelligence'",
+            "summary": "Facing restrictions on its new AI features in China, Apple is reportedly seeking a partnership with a Chinese AI company. The move comes as Apple's ChatGPT-powered 'Apple Intelligence' features are incompatible with China's internet censorship policies. Apple has held talks with several Chinese tech giants, including Baidu and Alibaba, but no deal has been reached. Without a local AI partner, 'Apple Intelligence' features may remain unavailable in China, limiting the company's reach in a key market. Apple is already facing challenges in China, where local brands like Vivo and Xiaomi have already integrated AI features into their devices. Additionally, the new features will only be available on newer iPhone models and are not expected to support Chinese language until 2025. The delay and limited availability could hinder Apple's competitiveness in the Chinese smartphone market.",
+            "source": {
+                "id": "the-times-of-india",
+                "name": "The Times of India"
+            },
+            "urlToImage": "https://static.toiimg.com/thumb/msid-111190958,width-1070,height-580,imgsize-14944,resizemode-75,overlay-toi_sw,pt-32,y_pad-40/photo.jpg",
+            "publishedAt": "2024-06-22T12:01:00Z"
+        },
+        {
+            "title": "Exploring the World of Free AI Music Generators: A Comprehensive Guide",
+            "summary": "With the rise of AI, music generation tools are becoming increasingly accessible. Whether you need royalty-free tunes for videos or just want to experiment with AI-generated music, several options are available. Suno, a free text-to-music generator, offers both instrumental and lyrical tracks, with a limit of 50 songs per month. SongR, a browser-based tool, lets you create music by choosing a genre and adding keywords, even allowing for custom lyrics. Google's MusicFX, while currently unavailable in India, generates instrumental tracks up to 70 seconds long. Riffusion takes a unique approach by generating music based on user-provided lyrics, resulting in 12-second tracks ideal for short videos. Lastly, Beatoven.ai allows users to generate copyright-free music, customize instruments and genres, and offers three track variations.",
+            "source": {
+                "id": null,
+                "name": "The Indian Express"
+            },
+            "urlToImage": null,
+            "publishedAt": "2024-06-22T11:50:50Z"
+        },
+        {
+            "title": "Redmi Note 13 Pro 5G Gets a Fresh New Look with Olive Green Color Option",
+            "summary": "Redmi has introduced a new Olive Green color variant for the Redmi Note 13 Pro 5G in select global markets. Initially launched in three colors, the addition of Olive Green provides customers with more choices. However, the new color option's availability in India is yet to be confirmed. Currently, the Indian market offers the Redmi Note 13 Pro 5G in Arctic White, Coral Purple, and Midnight Black colors. The phone boasts a 6.67-inch AMOLED display, a powerful Snapdragon 7s Gen 2 processor, and a triple rear camera system headlined by a 200-megapixel primary sensor. It's powered by a 5,100mAh battery with 67W fast charging support. The Redmi Note 13 Pro 5G is priced competitively, starting at Rs 24,999 in India.",
+            "source": {
+                "id": null,
+                "name": "India TV News"
+            },
+            "urlToImage": "https://resize.indiatvnews.com/en/resize/newbucket/1200_-/2024/06/redmi-note-13-pro-5g-1719055274.jpg",
+            "publishedAt": "2024-06-22T11:22:12Z"
+        },
+        {
+            "title": "Microsoft Unveils AI-Powered 'Copilot+' PCs, Ushering in a New Era of Computing",
+            "summary": "Microsoft has announced its latest innovation: 'Copilot+' PCs. These AI-powered devices, including the Surface Laptop and Surface Pro, are designed to enhance productivity and creativity. Powered by Qualcomm Snapdragon X series processors, these PCs boast impressive processing power, with a minimum specification exceeding 40 TOPS. The integration of large language models (LLMs) from Microsoft Azure Cloud ensures a seamless experience with Microsoft's native services and apps. Priced starting at $2,399.99, the 'Copilot+' PCs feature the 'Copilot+' assistant chatbot, enhancing user experience with AI capabilities. However, the 'Recall' feature, which continuously captured screenshots of user activity, has been removed due to privacy concerns. These devices mark a significant step towards a future where AI is deeply integrated into personal computing.",
+            "source": {
+                "id": null,
+                "name": "Moneycontrol"
+            },
+            "urlToImage": "https://images.moneycontrol.com/static-mcnews/2024/06/20240622110040_windows-AigsWJmvoEo-unsplash-2.jpg",
+            "publishedAt": "2024-06-22T11:04:40Z"
+        },
+        {
+            "title": "WhatsApp Beta Testing In-App Dialer for Enhanced Calling Experience",
+            "summary": "WhatsApp is rolling out a new in-app dialer feature to select beta users, allowing them to make calls directly within the app without saving contacts. This feature, expected to be included in a future update, utilizes a floating num-pad for dialing numbers. Users can make calls to unsaved numbers, eliminating the need to add them to their address book for temporary communication. This functionality is particularly useful for quick calls to businesses, customer service, or individuals not requiring contact saving. The feature also offers the option to save the dialed number as a new contact or add it to an existing one. Additionally, users can easily switch to messaging the dialed number, providing flexibility in communication. This new feature is currently available to beta testers using the latest WhatsApp beta for Android version 2.24.13.17.",
+            "source": {
+                "id": "the-times-of-india",
+                "name": "The Times of India"
+            },
+            "urlToImage": "https://static.toiimg.com/thumb/msid-111189832,width-1070,height-580,imgsize-17964,resizemode-75,overlay-toi_sw,pt-32,y_pad-40/photo.jpg",
+            "publishedAt": "2024-06-22T11:04:00Z"
+        }
+    ]
+}

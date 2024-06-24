@@ -5,11 +5,13 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { DropdownMenu, DropdownMenuRadioItem, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuRadioGroup } from '@/components/ui/dropdown-menu'
-import { AlertCircle, ChevronDown, Sparkles } from 'lucide-react'
+import { AlertCircle, ChevronDown, RotateCcw, Sparkles } from 'lucide-react'
 import React, { useState } from 'react'
 import countries from '@/data/countries.json'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Input } from '@/components/ui/input'
+import NewsCard from '@/components/NewsCard'
+import summaries from '@/data/summaries.json'
 
 const DailySummaries = () => {
 
@@ -52,42 +54,54 @@ const DailySummaries = () => {
         <div>
             <div className='flex flex-col'>
                 <Label>Paramters:</Label>
-                <div className='flex my-2 gap-2'>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button className='w-fit' variant='outline'>{countries.find(currentCountry => currentCountry.code == country)?.country} <ChevronDown size={18} className='mx-2' /></Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuRadioGroup value={country} onValueChange={setCountry}>
-                                <ScrollArea className='h-72'>
-                                    {countries.map(country => (
-                                        <DropdownMenuRadioItem value={country.code} key={country.code}>{country.country}</DropdownMenuRadioItem>
-                                        ))
-                                    }
-                                </ScrollArea>
-                            </DropdownMenuRadioGroup>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                <div className='flex flex-col sm:flex-row my-2 gap-2'>
+                    <div className='flex gap-2'>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button className='w-full' variant='outline'>{countries.find(currentCountry => currentCountry.code == country)?.country} <ChevronDown size={18} className='mx-2' /></Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <DropdownMenuRadioGroup value={country} onValueChange={setCountry}>
+                                    <ScrollArea className='h-72'>
+                                        {countries.map(country => (
+                                            <DropdownMenuRadioItem value={country.code} key={country.code}>{country.country}</DropdownMenuRadioItem>
+                                            ))
+                                        }
+                                    </ScrollArea>
+                                </DropdownMenuRadioGroup>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
 
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button className='w-fit' variant='outline'>{category} <ChevronDown size={18} className='mx-2' /></Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuRadioGroup value={category} onValueChange={setCategory}>
-                                <DropdownMenuRadioItem value="General" key="general">General</DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="Technology" key="technology">TechnoLogy</DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="Business" key="business">Business</DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="Entertainment" key="entertainment">Entertainment</DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="Sports" key="sports">Sports</DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="Health" key="health">Health</DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="Science" key="science">Science</DropdownMenuRadioItem>
-                            </DropdownMenuRadioGroup>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button className='w-full' variant='outline'>{category} <ChevronDown size={18} className='mx-2' /></Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <DropdownMenuRadioGroup value={category} onValueChange={setCategory}>
+                                    <DropdownMenuRadioItem value="General" key="general">General</DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="Technology" key="technology">TechnoLogy</DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="Business" key="business">Business</DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="Entertainment" key="entertainment">Entertainment</DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="Sports" key="sports">Sports</DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="Health" key="health">Health</DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="Science" key="science">Science</DropdownMenuRadioItem>
+                                </DropdownMenuRadioGroup>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
 
-                    <Input placeholder='Optional Keyword' />
+                    <div className='flex flex-col sm:flex-row gap-2 w-full'>
+                        <Input placeholder='Optional Keyword' />
+                        <Button variant='destructive'>Regenerate <RotateCcw size={18} className='mx-2' /></Button>
+                    </div>
                 </div>
+            </div>
+
+            <div className='my-4'>
+                {summaries.transformedSummaries.map((summary, index) => (
+                        <NewsCard {...summary} source={summary.source.name} key={index} />
+                    ))
+                }
             </div>
         </div>
     </section>
