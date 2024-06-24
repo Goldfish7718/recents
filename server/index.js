@@ -2,9 +2,13 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
+import { config } from 'dotenv'
+
+config()
 
 // ROUTE IMPORTS
 import userRoutes from './routes/userRoutes.js'
+import newsRoutes from './routes/newsRoutes.js'
 
 const app = express()
 const PORT = 5000
@@ -22,6 +26,7 @@ app.use(express.urlencoded({ extended: true }))
 
 // ROUTES MIDDLEWARE
 app.use('/user', userRoutes)
+app.use('/news', newsRoutes)
 
 const connectDB = async (url) => {
     await mongoose
