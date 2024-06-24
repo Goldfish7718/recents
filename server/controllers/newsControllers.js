@@ -7,15 +7,15 @@ import User from '../models/userModel.js';
 
 export const generateDailyNews = async (req, res) => {
     try {
-        const { userId, category } = req.body
+        const { userId, category, q } = req.body
 
         const potentialUser = await User.findById(userId)
+        let topHeadlines
 
-        // console.log(process.env.NEWS_API_KEY)
-        const topHeadlines = await axios.get(`https://newsapi.org/v2/top-headlines?country=${potentialUser.country}&pageSize=5&category=${category}&apiKey=${process.env.NEWS_API_KEY}`)
-        console.log(topHeadlines.data.articles)
-
-        // const url = `https://newsapi.org/v2/top-headlines?country=us&pageSize=6&apiKey=${process.env.NEWS_API_KEY}`
+        if (!q)
+            topHeadlines = await axios.get(`https://newsapi.org/v2/top-headlines?country=${potentialUser.country}&pageSize=5&category=${category}&apiKey=${process.env.NEWS_API_KEY}`)
+        else
+            topHeadlines = await axios.get(`https://newsapi.org/v2/top-headlines?q=${q}&country=${potentialUser.country}&pageSize=5&category=${category}&apiKey=${process.env.NEWS_API_KEY}`)
 
         const model = getNewsModel()
         
@@ -40,11 +40,6 @@ export const generateDailyNews = async (req, res) => {
                 return null;
             }
         }));
-
-        // const data = {
-        //     length: articles.length,
-        //     articles: JSON.stringify(articles)
-        // }
         
         const prompt = JSON.stringify(articles)
 
@@ -52,17 +47,16 @@ export const generateDailyNews = async (req, res) => {
         const response = result.response;
         const text = response.text();
 
-        console.log(text);
-
         const summaries = JSON.parse(text);
 
         const transformedSummaries = summaries.map((summary, index) => {
 
-            const { source, urlToImage, publishedAt } = topHeadlines.data.articles[index]
+            const { source, urlToImage, publishedAt, url } = topHeadlines.data.articles[index]
 
             return {
                 ...summary,
                 source,
+                url,
                 urlToImage,
                 publishedAt
             }
@@ -71,7 +65,6 @@ export const generateDailyNews = async (req, res) => {
         res
             .status(200)
             .json({ transformedSummaries })
-            // .send("done")
         
     } catch (error) {
         console.log(error);
