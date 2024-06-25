@@ -21,3 +21,21 @@ export const createUser = async (req, res) => {
             .json({ message: "Internal server error" })
     }
 }
+
+export const getUser = async (req, res) => {
+    try {
+        const { clerkId } = req.body
+
+        const user = await User.findOne({ clerkId })
+
+        res
+            .status(200)
+            .json({ user })
+    } catch (error) {
+        console.log(error);
+        res
+            .status(500)
+            .json({ message: "Internal server error" })
+        
+    }
+}
