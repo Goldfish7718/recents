@@ -15,7 +15,10 @@ const userSchema = new Schema({
         {
             type: String
         }
-    ]
+    ],
+    country: {
+        type: String
+    }
 }, {
     timestamps: true
 })
