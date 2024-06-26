@@ -3,25 +3,20 @@ import newsData from '../data/daily.json' assert { type: 'json' };
 import { JSDOM } from 'jsdom'
 import { Readability } from '@mozilla/readability'
 import { getNewsModel } from '../utils/initializeModel.js';
-import User from '../models/userModel.js';
 
 export const generateDailyNews = async (req, res) => {
     try {
-        const { userId, category, q } = req.body
-
-        const potentialUser = await User.findById(userId)
+        const { category, q, country } = req.body
         let topHeadlines
 
         if (!q)
-            topHeadlines = await axios.get(`https://newsapi.org/v2/top-headlines?country=${potentialUser.country}&pageSize=5&category=${category}&apiKey=${process.env.NEWS_API_KEY}`)
+            topHeadlines = await axios.get(`https://newsapi.org/v2/top-headlines?country=${country}&pageSize=5&category=${category}&apiKey=${process.env.NEWS_API_KEY}`)
         else
-            topHeadlines = await axios.get(`https://newsapi.org/v2/top-headlines?q=${q}&country=${potentialUser.country}&pageSize=5&category=${category}&apiKey=${process.env.NEWS_API_KEY}`)
+            topHeadlines = await axios.get(`https://newsapi.org/v2/top-headlines?q=${q}&country=${country}&pageSize=5&category=${category}&apiKey=${process.env.NEWS_API_KEY}`)
 
         const model = getNewsModel()
         
         const articles = await Promise.all(topHeadlines.data.articles.map(async article => {
-            console.log(article.author);
-            
             try {
                 const response = await axios.get(article.url);
                 let dom = new JSDOM(response.data, {

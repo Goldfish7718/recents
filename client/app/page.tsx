@@ -2,10 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import { SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs";
-import { ArrowUpRightFromSquare, Check } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { ArrowRight, ArrowUpRightFromSquare, Check } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+
+  const router = useRouter()
+
   return (
     <main>
       <section className="h-screen flex justify-center items-center">
@@ -21,20 +24,12 @@ export default function Home() {
           <div className="mx-2">
             <SignedOut>
               <SignUpButton>
-                <Button variant='outline'>Sign up to join Waitlist <ArrowUpRightFromSquare className="mx-2" /></Button>
+                <Button className="bg-yellow-500 hover:bg-yellow-600">Sign up <ArrowUpRightFromSquare size={18} className="mx-2" /></Button>
               </SignUpButton>
             </SignedOut>
 
             <SignedIn>
-              <Alert className="text-left">
-                <Check size={16} />
-                <AlertTitle>
-                  You have joined the waitlist
-                </AlertTitle>
-                <AlertDescription>
-                  We will send you an update as soon as the MVP ships.
-                </AlertDescription>
-              </Alert>
+              <Button className="bg-yellow-500 hover:bg-yellow-600" onClick={() => router.push('/dashboard')}>Go to Dashboard <ArrowRight size={18} className="mx-2" /></Button>
             </SignedIn>
           </div>
         </div>

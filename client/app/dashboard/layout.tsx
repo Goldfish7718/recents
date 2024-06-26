@@ -1,5 +1,6 @@
 "use client"
 
+import ProtectRoute from "@/components/ProtectRoute"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { SignOutButton } from "@clerk/nextjs"
@@ -15,7 +16,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     const router = useRouter()
 
   return (
-    <>
+    <ProtectRoute>
         <aside className="min-h-screen fixed w-[300px] top-[72px] hidden sm:flex flex-col bg-neutral-100">
             <div className="flex flex-col">
                 <Button className="w-full py-6 flex justify-start" variant='ghost' onClick={() => router.push('/dashboard/daily')}>Daily Summarizer <Newspaper size={18} className="mx-2" /></Button>
@@ -31,7 +32,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
         <div className="sm:ml-[300px] mt-[72px] p-2">
             {children}
         </div>
-    </>
+    </ProtectRoute>
   )
 }
 
