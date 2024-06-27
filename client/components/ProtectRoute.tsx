@@ -20,7 +20,7 @@ const ProtectRoute = ({ children }: ProtectRouteProps) => {
                 <Loader2 size={48} className='animate-spin duration-300'/>
             </div>
         )
-    } else if (isLoaded && !SignedIn) {
+    } else if (isLoaded && !isSignedIn) {
         router.push('/')
     } else if (isLoaded && isSignedIn) {
         return (
