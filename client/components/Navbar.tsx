@@ -50,7 +50,7 @@ const Navbar = () => {
                             <Button variant='outline' onClick={() => router.push('/dashboard/daily')}>Daily Summarizer <Newspaper size={18} className="mx-1" /></Button>
                         </SheetClose>
                         <SheetClose asChild>
-                            <Button variant='outline' onClick={() => router.push('/dashboard/limelight/introduction')}>
+                            <Button variant='outline' onClick={() => router.push('/dashboard/limelight')}>
                                 Limelight <Cpu size={18} className="mx-1" /> 
                                 <Badge variant="success">Coming Soon</Badge>
                             </Button>

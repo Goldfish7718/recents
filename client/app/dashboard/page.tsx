@@ -1,10 +1,8 @@
-import React from 'react'
+import UnderDevelopment from '@/components/UnderDevelopment'
 
 const Dashboard = () => {
   return (
-    <div>
-        Dashboard
-    </div>
+    <UnderDevelopment />
   )
 }
 
