@@ -1,12 +1,12 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ArrowUpRightFromSquare, CircleGauge, LogIn, LogOut, Menu, PenLine, Plus, Search, Settings, StickyNote, User, UserPlus, Zap } from "lucide-react"
+import { CircleGauge, Cpu, LogIn, LogOut, Menu, Newspaper, Settings, User } from "lucide-react"
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { SignOutButton, SignedIn, SignedOut, useUser, SignInButton, SignUpButton } from "@clerk/clerk-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { Badge } from "./ui/badge"
   
 
 const Navbar = () => {
@@ -16,7 +16,7 @@ const Navbar = () => {
 
   return (
     <nav className="p-4 w-full flex justify-between items-center z-10 dark:bg-[#0c0a09] bg-white fixed top-0">
-        <h3 className="text-3xl hover:cursor-pointer font-bold underline decoration-yellow-400 decoration-4 text-[#242424]">Recents.</h3>
+        <h3 className="text-3xl hover:cursor-pointer font-bold underline decoration-yellow-400 decoration-4 text-[#242424]" onClick={() => router.push('/')}>Recents.</h3>
 
         {/* MOBILE NAVIGATION - [RIGHT SHEET] */}
         <Sheet>
@@ -45,6 +45,18 @@ const Navbar = () => {
                         </SheetClose>
                         <SheetClose asChild>
                             <Button variant='outline'>Settings<Settings size={18} className="mx-1" /></Button>
+                        </SheetClose>
+                        <SheetClose asChild>
+                            <Button variant='outline' onClick={() => router.push('/dashboard/daily')}>Daily Summarizer <Newspaper size={18} className="mx-1" /></Button>
+                        </SheetClose>
+                        <SheetClose asChild>
+                            <Button variant='outline' onClick={() => router.push('/dashboard/limelight/introduction')}>
+                                Limelight <Cpu size={18} className="mx-1" /> 
+                                <Badge variant="success">Coming Soon</Badge>
+                            </Button>
+                        </SheetClose>
+                        <SheetClose asChild>
+                            <Button variant='outline' onClick={() => router.push('/dashboard')}>Dashboard <CircleGauge size={18} className="mx-2" /></Button>
                         </SheetClose>
 
                         <SignOutButton>
