@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { SignedIn, useUser } from '@clerk/nextjs'
+import { useUser } from '@clerk/nextjs'
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
