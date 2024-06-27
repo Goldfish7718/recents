@@ -39,9 +39,10 @@ export const generateDailyNews = async (req, res) => {
         const prompt = JSON.stringify(articles)
 
         const result = await model.generateContent(prompt);
-        const response = result.response;
+        const response = await result.response;
         const text = response.text();
 
+        console.log(text)
         const summaries = JSON.parse(text);
 
         const transformedSummaries = summaries.map((summary, index) => {
