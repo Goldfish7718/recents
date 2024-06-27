@@ -1,0 +1,41 @@
+"[{"title": "Willie Mays, Baseball Legend Known as the 'Say Hey Kid,' Dies at 93", "summary": "Willie Mays, the iconic
+center fielder renowned for his exceptional talent and captivating style of play, has passed away at the age of 93.
+Mays's illustrious career spanned over two decades, during which he captivated audiences with his remarkable hitting,
+speed, and extraordinary fielding abilities. His signature over-the-shoulder catch in the 1954 World Series, forever
+known as \"The Catch,\" remains etched in baseball history. Mays's impact extended beyond his on-field exploits. As one
+of the first Black athletes to achieve widespread fame, he broke barriers and inspired generations. Despite facing
+racial prejudice and financial disparities compared to white counterparts, Mays's charisma and infectious enthusiasm
+left an unforgettable mark on the sport. In addition to \"The Catch,\" Mays's career was studded with remarkable feats,
+including hitting four home runs in a single game and receiving numerous accolades such as two MVP awards and twelve
+Gold Gloves. Beyond his athletic achievements, Mays is remembered for his generosity, sportsmanship, and genuine love
+for the game. His passing marks the end of an era, but his legacy as one of baseball's greatest ambassadors will
+endure."}, {"title": "Aaron Judge Avoids Serious Injury After Being Hit by Pitch", "summary": "New York Yankees slugger
+Aaron Judge breathed a sigh of relief after X-rays and a CT scan revealed no significant damage to his left hand, which
+was struck by a fastball from Baltimore Orioles pitcher Albert Suárez. Judge, who leads the majors in home runs and
+RBIs, exhibited visible discomfort after being hit in the third inning but remained in the game initially before being
+replaced by a pinch hitter. The incident evoked memories of a previous wrist fracture Judge sustained in 2018 after
+being hit by a pitch, leading to a 45-game absence. Judge's teammates expressed displeasure over the incident,
+particularly given that Gleyber Torres was also hit by a pitch during the game. While no intent was implied, the Yankees
+expressed their expectation for heightened intensity in future encounters. The Los Angeles Dodgers, meanwhile, face a
+significant setback with the news of Mookie Betts's broken hand, sidelining him for several weeks. Judge's ability to
+avoid a similar fate is welcome news for the Yankees, who rely heavily on his offensive prowess."}, {"title": "Houthi
+Rebels Sink Second Ship in Red Sea, Escalating Attacks on Shipping", "summary": "In a significant escalation of
+hostilities, Yemen's Houthi rebels have sunk a second ship in the Red Sea, marking an alarming intensification of their
+campaign against maritime traffic in the region. The bulk carrier, Tutor, sank days after being attacked by a Houthi
+drone boat, resulting in the death of a Filipino crew member. The incident has raised concerns, evoking memories of the
+2000 attack on the USS Cole. This latest sinking underscores the Houthis' growing audacity and disregard for
+international condemnation, prompting calls for immediate action to safeguard commercial shipping in the vital maritime
+corridor. The Houthis, who receive backing from Iran, have repeatedly targeted vessels in the Red Sea, claiming to
+target those linked to Israel, the United States, or Britain. However, their attacks have often impacted ships with
+little or no connection to the ongoing Israel-Hamas conflict. The escalating violence has severely disrupted Red Sea
+shipping, with container traffic plummeting by 90% since December. The international community faces mounting pressure
+to address the deteriorating security situation and protect vital shipping lanes in the region."}, {"title": "SpaceX
+Launch of European Communications Satellite Scrubbed Due to Weather", "summary": "SpaceX's attempt to launch the Astra
+1P/SES-24 satellite from Cape Canaveral Space Launch Complex 40 was scrubbed on Tuesday evening due to unfavorable
+weather conditions. The launch, which was set to end a two-week launch drought on the Space Coast, was delayed due to
+storms, high winds, and the presence of cumulus clouds in the area. The Astra 1P/SES-24 satellite, a joint project
+between European communication organizations SES and Astra, aims to provide satellite TV services for Germany, France,
+and Spain. SpaceX had initially targeted a liftoff time of 5:35 p.m. EDT, but the launch window extended for over two
+hours. Despite pushing the launch attempt towards the end of the window, SpaceX ultimately decided to scrub the mission
+due to persistent weather concerns. The next launch attempt is scheduled for Wednesday at 5:25 p.m. EDT, with a slightly
+less favorable weather outlook. SpaceX is also targeting a launch from California later on Wednesday."}]"
