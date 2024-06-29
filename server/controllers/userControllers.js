@@ -28,6 +28,24 @@ export const getUser = async (req, res) => {
 
         const user = await User.findOne({ clerkId })
 
+        res
+            .status(200)
+            .json({ user })
+    } catch (error) {
+        console.log(error);
+        res
+            .status(500)
+            .json({ message: "Internal server error" })
+        
+    }
+}
+
+export const userExists = async (req, res) => {
+    try {
+        const { clerkId } = req.params
+
+        const user = await User.findOne({ clerkId })
+
         if (!user) {
             return res
                 .status(200)
@@ -36,7 +54,7 @@ export const getUser = async (req, res) => {
 
         res
             .status(200)
-            .json({ user, userExists: true })
+            .json({ userExists: true })
     } catch (error) {
         console.log(error);
         res
