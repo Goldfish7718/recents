@@ -28,9 +28,15 @@ export const getUser = async (req, res) => {
 
         const user = await User.findOne({ clerkId })
 
+        if (!user) {
+            return res
+                .status(200)
+                .json({ userExists: false })
+        }
+
         res
             .status(200)
-            .json({ user })
+            .json({ user, userExists: true })
     } catch (error) {
         console.log(error);
         res
