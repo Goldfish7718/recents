@@ -9,7 +9,7 @@ import countries from '@/data/countries.json'
 import { useState } from "react"
 import { Checkbox } from "@/components/ui/checkbox"
 
-const page = () => {
+const Profile = () => {
 
     const [country, setCountry] = useState("in");
 
@@ -79,4 +79,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Profile
