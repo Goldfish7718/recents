@@ -88,8 +88,8 @@ const Navbar = () => {
                             {user?.fullName} <User size={18} className="mx-1" />
                         </Button>
                     </DropdownMenuTrigger>
-                    {/* <DropdownMenuContent>
-                        <DropdownMenuItem>
+                    <DropdownMenuContent>
+                        {/* <DropdownMenuItem>
                             <User className="mr-2 h-4 w-4" />
                             <span>View Profile</span>
                         </DropdownMenuItem>
@@ -97,14 +97,14 @@ const Navbar = () => {
                             <Settings className="mr-2 h-4 w-4" />
                             <span>Settings</span>
                         </DropdownMenuItem>
-                        <DropdownMenuSeparator />
+                        <DropdownMenuSeparator /> */}
                         <SignOutButton>
                             <DropdownMenuItem>
                                 <LogOut className="mr-2 h-4 w-4" />
                                 <span>Log Out</span>
                             </DropdownMenuItem>
                         </SignOutButton>
-                    </DropdownMenuContent> */}
+                    </DropdownMenuContent>
                 </DropdownMenu>
             </SignedIn>
         </div>
