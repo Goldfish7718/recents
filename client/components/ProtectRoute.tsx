@@ -1,10 +1,9 @@
 "use client"
 
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useUser } from '@clerk/nextjs'
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '@/context/AuthContext'
 
 interface ProtectRouteProps {
     children: React.ReactNode
@@ -13,14 +12,9 @@ interface ProtectRouteProps {
 const ProtectRoute = ({ children }: ProtectRouteProps) => {
 
     const { isLoaded, isSignedIn }  = useUser()
-    const { loading, userExists, fetchUserExists } = useAuth()
     const router = useRouter()
 
-    useEffect(() => {
-        fetchUserExists()
-    }, [])
-
-    if (!isLoaded || loading) {
+    if (!isLoaded) {
         return (
             <div className='h-screen flex justify-center items-center'>
                 <Loader2 size={48} className='animate-spin duration-300'/>
@@ -28,14 +22,12 @@ const ProtectRoute = ({ children }: ProtectRouteProps) => {
         )
     } else if (isLoaded && !isSignedIn) {
         router.push('/')
-    } else if (isLoaded && isSignedIn && userExists && !loading) {
+    } else if (isLoaded && isSignedIn) {
         return (
             <>
                 {children}
             </>
         )
-    } else if (isLoaded && isSignedIn && !userExists && !loading) {
-        router.push('/initiate-profile')
     }
 }
 
