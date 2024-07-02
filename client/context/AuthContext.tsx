@@ -32,9 +32,7 @@ function AuthProvider ({ children }: AuthProviderProps) {
 
     const getUser = async () => {
         try { 
-            console.log("Get User called")
             const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/get/${clerkUser?.id}`)
-            console.log(res.data);
             setUser(res.data.user)
         } catch (error) {
             console.log(error)            
