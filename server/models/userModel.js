@@ -3,12 +3,12 @@ import { model, Schema } from "mongoose";
 const userSchema = new Schema({
     email: {
         type: String,
-        unique: true,
+        // unique: true,
         required: true
     },
     clerkId: {
         type: String,
-        unique: true,
+        // unique: true,
         required: true
     },
     interests: [
@@ -17,7 +17,8 @@ const userSchema = new Schema({
         }
     ],
     country: {
-        type: String
+        type: String,
+        default: "in"
     }
 }, {
     timestamps: true

@@ -4,12 +4,22 @@ export const createUser = async (req, res) => {
     try {
         const { interests, email, clerkId, country } = req.body
 
-        const newUser = await User.create({
-            email, 
+        const potentialUser = await User.findOne({ clerkId })
+        let newUser = {
+            email,
             clerkId,
             interests,
             country
-        })
+        }
+
+        if (!potentialUser) {
+            await User.create(newUser)
+        } else {
+            await User.findOneAndUpdate(
+                { clerkId },
+                { email, interests, country }
+            )
+        }
 
         res
             .status(200)
@@ -31,6 +41,30 @@ export const getUser = async (req, res) => {
         res
             .status(200)
             .json({ user })
+    } catch (error) {
+        console.log(error);
+        res
+            .status(500)
+            .json({ message: "Internal server error" })
+        
+    }
+}
+
+export const userExists = async (req, res) => {
+    try {
+        const { clerkId } = req.params
+
+        const user = await User.findOne({ clerkId })
+
+        if (!user) {
+            return res
+                .status(200)
+                .json({ userExists: false })
+        }
+
+        res
+            .status(200)
+            .json({ userExists: true })
     } catch (error) {
         console.log(error);
         res

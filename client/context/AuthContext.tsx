@@ -27,6 +27,7 @@ export const useAuth = (): AuthContextType => {return useContext(AuthContext) as
 function AuthProvider ({ children }: AuthProviderProps) {
 
     const { user: clerkUser, isLoaded, isSignedIn } = useUser()
+
     const [user, setUser] = useState<UserType | null>(null);
 
     const getUser = async () => {
@@ -47,7 +48,7 @@ function AuthProvider ({ children }: AuthProviderProps) {
 
     const value = {
         user,
-        getUser
+        getUser,
     }
 
     return (

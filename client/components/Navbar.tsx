@@ -31,21 +31,24 @@ const Navbar = () => {
                 </SheetTitle>
                 <div className="my-6 flex flex-col justify-center gap-3">
                     <SignedOut>
-                        <SheetClose asChild>
-                            <Button variant="outline">Sign In <LogIn size={18} className="mx-1" /></Button>
-                        </SheetClose>
+                        <SignInButton>
+                            <SheetClose asChild>
+                                <Button variant="outline">Sign In <LogIn size={18} className="mx-1" /></Button>
+                            </SheetClose>
+                        </SignInButton>
 
-                        <SheetClose asChild>
-                            <Button variant="outline">Sign up <User size={18} className="mx-1" /></Button>
-                        </SheetClose>
+                        <SignUpButton>
+                            <SheetClose asChild>
+                                <Button variant="outline">Sign up <User size={18} className="mx-1" /></Button>
+                            </SheetClose>
+                        </SignUpButton>
                     </SignedOut>
                     <SignedIn>
                         <SheetClose asChild>
                             <Button variant='outline'>{user?.fullName} <User size={18} className="mx-1" /></Button>
                         </SheetClose>
-
                         <SheetClose asChild>
-                            <Button variant='outline'>Settings<Settings size={18} className="mx-1" /></Button>=======
+                            <Button variant='outline' onClick={() => router.push('/dashboard')}>Dashboard <CircleGauge size={18} className="mx-2" /></Button>
                         </SheetClose>
                         <SheetClose asChild>
                             <Button variant='outline' onClick={() => router.push('/dashboard/daily')}>Daily Summarizer <Newspaper size={18} className="mx-1" /></Button>
@@ -56,10 +59,7 @@ const Navbar = () => {
                                 <Badge variant="success">Coming Soon</Badge>
                             </Button>
                         </SheetClose>
-                        <SheetClose asChild>
-                            <Button variant='outline' onClick={() => router.push('/dashboard')}>Dashboard <CircleGauge size={18} className="mx-2" /></Button>
-                        </SheetClose>
-
+                        
 
                         <SignOutButton>
                             <SheetClose asChild>
@@ -88,8 +88,8 @@ const Navbar = () => {
                             {user?.fullName} <User size={18} className="mx-1" />
                         </Button>
                     </DropdownMenuTrigger>
-                    {/* <DropdownMenuContent>
-                        <DropdownMenuItem>
+                    <DropdownMenuContent>
+                        {/* <DropdownMenuItem>
                             <User className="mr-2 h-4 w-4" />
                             <span>View Profile</span>
                         </DropdownMenuItem>
@@ -97,14 +97,14 @@ const Navbar = () => {
                             <Settings className="mr-2 h-4 w-4" />
                             <span>Settings</span>
                         </DropdownMenuItem>
-                        <DropdownMenuSeparator />
+                        <DropdownMenuSeparator /> */}
                         <SignOutButton>
                             <DropdownMenuItem>
                                 <LogOut className="mr-2 h-4 w-4" />
                                 <span>Log Out</span>
                             </DropdownMenuItem>
                         </SignOutButton>
-                    </DropdownMenuContent> */}
+                    </DropdownMenuContent>
                 </DropdownMenu>
             </SignedIn>
         </div>
