@@ -4,12 +4,22 @@ export const createUser = async (req, res) => {
     try {
         const { interests, email, clerkId, country } = req.body
 
-        const newUser = await User.create({
-            email, 
+        const potentialUser = await User.findOne({ clerkId })
+        let newUser = {
+            email,
             clerkId,
             interests,
             country
-        })
+        }
+
+        if (!potentialUser) {
+            await User.create(newUser)
+        } else {
+            await User.findOneAndUpdate(
+                { clerkId },
+                { email, interests, country }
+            )
+        }
 
         res
             .status(200)

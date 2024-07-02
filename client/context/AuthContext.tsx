@@ -27,13 +27,12 @@ export const useAuth = (): AuthContextType => {return useContext(AuthContext) as
 function AuthProvider ({ children }: AuthProviderProps) {
 
     const { user: clerkUser, isLoaded, isSignedIn } = useUser()
+
     const [user, setUser] = useState<UserType | null>(null);
 
     const getUser = async () => {
         try { 
-            console.log("Get User called")
             const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/get/${clerkUser?.id}`)
-            console.log(res.data);
             setUser(res.data.user)
         } catch (error) {
             console.log(error)            
@@ -47,7 +46,7 @@ function AuthProvider ({ children }: AuthProviderProps) {
 
     const value = {
         user,
-        getUser
+        getUser,
     }
 
     return (

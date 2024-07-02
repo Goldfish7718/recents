@@ -1,5 +1,4 @@
 import axios from 'axios'
-import newsData from '../data/daily.json' assert { type: 'json' };
 import { JSDOM } from 'jsdom'
 import { Readability } from '@mozilla/readability'
 import { getNewsModel } from '../utils/initializeModel.js';
@@ -42,7 +41,6 @@ export const generateDailyNews = async (req, res) => {
         const response = await result.response;
         const text = response.text();
 
-        console.log(text)
         const summaries = JSON.parse(text);
 
         const transformedSummaries = summaries.map((summary, index) => {
