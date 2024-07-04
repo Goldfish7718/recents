@@ -45,7 +45,7 @@ const Navbar = () => {
                     </SignedOut>
                     <SignedIn>
                         <SheetClose asChild>
-                            <Button variant='outline'>{user?.fullName} <User size={18} className="mx-1" /></Button>
+                            <Button variant='outline' onClick={() => router.push('/profile')}>{user?.fullName} <User size={18} className="mx-1" /></Button>
                         </SheetClose>
                         <SheetClose asChild>
                             <Button variant='outline' onClick={() => router.push('/dashboard')}>Dashboard <CircleGauge size={18} className="mx-2" /></Button>
@@ -89,11 +89,11 @@ const Navbar = () => {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                        {/* <DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => router.push('/profile')}>
                             <User className="mr-2 h-4 w-4" />
                             <span>View Profile</span>
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
+                        {/* <DropdownMenuItem>
                             <Settings className="mr-2 h-4 w-4" />
                             <span>Settings</span>
                         </DropdownMenuItem>
