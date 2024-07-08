@@ -53,6 +53,8 @@ const DailySummaries = () => {
     useEffect(() => {
         if (user && user.country) {
             setCountry(user.country);
+        } else {
+            setCountry("in");
         }
     }, [user]);
 
