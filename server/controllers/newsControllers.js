@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { JSDOM } from 'jsdom'
 import { Readability } from '@mozilla/readability'
-import { getNewsModel, getParameterYieldModel } from '../utils/initializeModel.js';
+import { getLimelightModel, getNewsModel, getParameterYieldModel } from '../utils/initializeModel.js';
 
 export const generateDailyNews = async (req, res) => {
     try {
@@ -71,11 +71,13 @@ export const generateDailyNews = async (req, res) => {
 export const getLimelightResponse = async (req, res) => {
     try {
         const { prompt } = req.body;
-        const model = getParameterYieldModel()
 
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text();
+        const parameterModel = getParameterYieldModel()
+        const limelightModel = getLimelightModel()
+
+        let result = await parameterModel.generateContent(prompt);
+        let response = await result.response;
+        let text = response.text();
 
         const parameters = JSON.parse(text);
 
@@ -97,9 +99,20 @@ export const getLimelightResponse = async (req, res) => {
             }
         }));
 
+        console.log(fullArticles)
+
+        const limelightPrompt = {
+            prompt: parameters.q,
+            fullArticles
+        }
+
+        result = (await limelightModel).generateContent(JSON.stringify(limelightPrompt));
+        response = await result.response;
+        text = response.text();
+        
         res
             .status(200)
-            .json({ fullArticles })
+            .json({ response: text })
     } catch (error) {
         console.log(error);
         res
