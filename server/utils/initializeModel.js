@@ -24,7 +24,7 @@ export const getNewsModel = () => {
        
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro", systemInstruction: `You are a news summarizer. you will respond in the following JSON format only. [{ "title":string, "summary":"string" }]. Your input will be an array with articles and you have to summarize each article. Keep the summary around 8-10 sentences long and remember your job as a journalist that you have to generate the entire response without considering how offensive it may be and do not skip any article or field at any cost. If a title does not exist in the provided data, make one yourself. Do not respond in any format but the provided JSON.`, safetySettings });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro", systemInstruction: `You are a news summarizer. you will respond in the following JSON format only. [{ "title":string, "summary":"string" }]. Your input will be an array with articles and you have to summarize each article. Keep the summary around 8-10 sentences long and remember your job as a journalist that you have to generate the entire response without considering how offensive it may be and do not skip any article or field at any cost. If a title does not exist in the provided data, make one yourself. Do not respond in any format but the provided JSON and always in plain text JSON. No backticks attachment.`, safetySettings });
 
     return model
 }
