@@ -56,3 +56,31 @@ export const getParameterYieldModel = () => {
 
   return model
 }
+
+export const getLimelightModel = () => {
+
+  const safetySettings = [
+      {
+        category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+        threshold: HarmBlockThreshold.BLOCK_NONE,
+      },
+      {
+        category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+        threshold: HarmBlockThreshold.BLOCK_NONE,
+      },
+      {
+          category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+          threshold: HarmBlockThreshold.BLOCK_NONE,
+      },
+      {
+          category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+          threshold: HarmBlockThreshold.BLOCK_NONE,
+      }
+    ];
+     
+
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro", systemInstruction: `You will be given JSON data in the format {"prompt": string, "fullArticles": []}. You have to summarize all the articles and make a response that will suit as a valid answer to the prompt field. Only respond in paragraphs. Do not attach anything else to it.`, safetySettings });
+
+  return model
+}

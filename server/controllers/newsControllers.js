@@ -81,7 +81,7 @@ export const getLimelightResponse = async (req, res) => {
 
         const parameters = JSON.parse(text);
 
-        const newsResponse = await axios.get(`https://newsapi.org/v2/everything?q=${parameters.q}&from=${parameters.from}&to=${parameters.to}&apiKey=${process.env.NEWS_API_KEY}`)
+        const newsResponse = await axios.get(`https://newsapi.org/v2/everything?q=${parameters.q}&from=${parameters.from}&to=${parameters.to}&pageSize=1&apiKey=${process.env.NEWS_API_KEY}`)
         const { data: articles } = newsResponse
 
         const fullArticles = await Promise.all(articles.articles.map(async article => {
