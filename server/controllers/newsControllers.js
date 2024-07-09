@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { JSDOM } from 'jsdom'
 import { Readability } from '@mozilla/readability'
-import { getNewsModel } from '../utils/initializeModel.js';
+import { getLimelightModel, getNewsModel, getParameterYieldModel } from '../utils/initializeModel.js';
 
 export const generateDailyNews = async (req, res) => {
     try {
@@ -60,6 +60,61 @@ export const generateDailyNews = async (req, res) => {
             .status(200)
             .json({ transformedSummaries })
         
+    } catch (error) {
+        console.log(error);
+        res
+            .status(500)
+            .json({ message: "Internal server error" })
+    }
+}
+
+export const getLimelightResponse = async (req, res) => {
+    try {
+        const { prompt } = req.body;
+
+        const parameterModel = getParameterYieldModel()
+        const limelightModel = getLimelightModel()
+
+        let result = await parameterModel.generateContent(prompt);
+        let response = await result.response;
+        let text = response.text();
+
+        const parameters = JSON.parse(text);
+
+        console.log(parameters);
+
+        const newsResponse = await axios.get(`https://newsapi.org/v2/everything?q=${parameters.q}&from=${parameters.from}&to=${parameters.to}&pageSize=2&apiKey=${process.env.NEWS_API_KEY}`)
+        const { data: articles } = newsResponse
+
+        const fullArticles = await Promise.all(articles.articles.map(async article => {
+            const response = await axios.get(article.url);
+            let dom = new JSDOM(response.data, {
+                url: article.url
+            });
+            let parsedArticle = new Readability(dom.window.document).parse();
+            
+            if (parsedArticle && parsedArticle.textContent) {
+                return parsedArticle.textContent;
+            } else {
+                console.error(`Failed to parse article at URL: ${article.url}`);
+                return null;
+            }
+        }));
+
+        console.log(fullArticles)
+
+        const limelightPrompt = {
+            prompt: parameters.q,
+            fullArticles: JSON.stringify(fullArticles)
+        }
+
+        result = await limelightModel.generateContent(JSON.stringify(limelightPrompt));
+        response = await result.response;
+        text = response.text();
+        
+        res
+            .status(200)
+            .json({ response: text })
     } catch (error) {
         console.log(error);
         res
