@@ -9,3 +9,9 @@ export interface Summary {
     urlToImage: string
     publishedAt: string
 }
+
+export interface ChatSchema {
+    prompt: string;
+    response: string | undefined;
+    id: number;
+}
