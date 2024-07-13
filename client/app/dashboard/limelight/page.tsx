@@ -3,36 +3,58 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { ArrowRight, Clipboard, RefreshCcw, SendHorizonal } from "lucide-react"
+import { ArrowRight, Clipboard, Loader2, RefreshCcw, SendHorizonal } from "lucide-react"
 import chat from '@/data/chat.json'
 import CustomTooltip from "@/components/CustomTooltip"
-import { useState } from "react"
-import { ChatSchema } from "@/types/types"
+import { useEffect, useRef, useState } from "react"
 import axios from "axios"
 
 const Limelight = () => {
 
-  const [currentChat, setCurrentChat] = useState<ChatSchema[]>([]);
+  const [prompts, setPrompts] = useState<string[]>([]);
+  const [responses, setResponses] = useState<string[]>([]);
+
   const [prompt, setPrompt] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const bottomRef = useRef<HTMLDivElement>(null)
 
   const getLimelightResponse = async () => {
     try {
+      setLoading(true)
+      setPrompts([...prompts, prompt])
+      
+      setPrompt("")
+
       const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/news/limelight`, {
         prompt
       })
 
-      const chatItem = {
-        prompt,
-        response: res.data.response,
-        id: currentChat.length + 1
-      }
+      setResponses([...responses, res.data.response])
 
-      setCurrentChat([...currentChat, chatItem])
       console.log(res.data.response);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false)
     }
   }
+
+  const addPromptAndResponse = () => {
+    const newPrompt = `Prompt ${prompts.length + 1}`;
+    const newResponse = `Response ${responses.length + 1}`;
+
+    setPrompts([...prompts, newPrompt]);
+    setResponses([...responses, newResponse]);
+  };
+
+  useEffect(() => {
+    // if (bottomRef.current) {
+    //   bottomRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    // }
+
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+  }, [prompts, responses]);
 
   return (
     <div>
@@ -78,10 +100,10 @@ const Limelight = () => {
 
       {/* CHAT INTERFACE */}
       <div className="mb-12">
-        {currentChat.map(item => (
-            <>
+        {prompts.map((item, index) => (
+            <div key={index}>
               <div className="bg-neutral-100 p-3 ml-auto rounded-md w-1/2 m-2">
-                {item.prompt}
+                {item}
 
                 <div className="flex mt-2">
                   <CustomTooltip label="Copy">
@@ -91,34 +113,41 @@ const Limelight = () => {
                   </CustomTooltip>
                 </div>
               </div>
+            
+              {responses[index] ?
+                <div className="bg-neutral-100 p-3 mr-auto rounded-md w-2/3 m-2">
+                  {responses[index]}
 
-              <div className="bg-neutral-100 p-3 mr-auto rounded-md w-2/3 m-2">
-                {item.response}
-
-                <div className="flex mt-2 gap-2">
-                  <CustomTooltip label="Copy">
-                    <Button variant="outline" size='sm' className="bg-neutral-100 hover:bg-neutral-200">
-                      <Clipboard size={16} />
-                    </Button>
-                  </CustomTooltip>
-                  
-                  <CustomTooltip label="Regenerate">
-                    <Button variant="outline" size='sm' className="bg-neutral-100 hover:bg-neutral-200">
-                      <RefreshCcw size={16} />
-                    </Button>
-                  </CustomTooltip>
+                  <div className="flex mt-2 gap-2">
+                    <CustomTooltip label="Copy">
+                      <Button variant="outline" size='sm' className="bg-neutral-100 hover:bg-neutral-200">
+                        <Clipboard size={16} />
+                      </Button>
+                    </CustomTooltip>
+                    
+                    <CustomTooltip label="Regenerate">
+                      <Button variant="outline" size='sm' className="bg-neutral-100 hover:bg-neutral-200">
+                        <RefreshCcw size={16} />
+                      </Button>
+                    </CustomTooltip>
+                  </div>
+                </div> : 
+                <div className="bg-neutral-100 p-3 mr-auto rounded-md m-2 w-fit">
+                  <Loader2 className="animate-spin duration-300" />
                 </div>
-              </div>
-            </>
+              }
+            </div>
           ))
         }
       </div>
 
       {/* INPUT */}
       <div className="flex gap-3 fixed bottom-2 right-2 left-2 sm:left-[308px]">
-        <Input placeholder="Chat with Limelight" onChange={e => setPrompt(e.target.value)} />
-        <Button variant='outline' onClick={getLimelightResponse}><SendHorizonal size={18} /></Button>
+        <Input placeholder="Chat with Limelight" onChange={e => setPrompt(e.target.value)} value={prompt} />
+        <Button variant='outline' onClick={addPromptAndResponse}><SendHorizonal size={18} /></Button>
       </div>
+
+      <div ref={bottomRef} className="mb-10"></div>
     </div>
   )
 }
