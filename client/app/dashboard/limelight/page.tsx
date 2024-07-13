@@ -6,8 +6,34 @@ import { Input } from "@/components/ui/input"
 import { ArrowRight, Clipboard, RefreshCcw, SendHorizonal } from "lucide-react"
 import chat from '@/data/chat.json'
 import CustomTooltip from "@/components/CustomTooltip"
+import { useState } from "react"
+import { ChatSchema } from "@/types/types"
+import axios from "axios"
 
 const Limelight = () => {
+
+  const [currentChat, setCurrentChat] = useState<ChatSchema[]>([]);
+  const [prompt, setPrompt] = useState("");
+
+  const getLimelightResponse = async () => {
+    try {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/news/limelight`, {
+        prompt
+      })
+
+      const chatItem = {
+        prompt,
+        response: res.data.response,
+        id: currentChat.length + 1
+      }
+
+      setCurrentChat([...currentChat, chatItem])
+      console.log(res.data.response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div>
       {/* <div className="mt-20">
@@ -52,7 +78,7 @@ const Limelight = () => {
 
       {/* CHAT INTERFACE */}
       <div className="mb-12">
-        {chat.map(item => (
+        {currentChat.map(item => (
             <>
               <div className="bg-neutral-100 p-3 ml-auto rounded-md w-1/2 m-2">
                 {item.prompt}
@@ -90,8 +116,8 @@ const Limelight = () => {
 
       {/* INPUT */}
       <div className="flex gap-3 fixed bottom-2 right-2 left-2 sm:left-[308px]">
-        <Input placeholder="Chat with Limelight" />
-        <Button variant='outline'><SendHorizonal size={18} /></Button>
+        <Input placeholder="Chat with Limelight" onChange={e => setPrompt(e.target.value)} />
+        <Button variant='outline' onClick={getLimelightResponse}><SendHorizonal size={18} /></Button>
       </div>
     </div>
   )

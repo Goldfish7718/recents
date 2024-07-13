@@ -8,7 +8,7 @@ interface CustomTooltipProps {
 const CustomTooltip = ({ children, label }: CustomTooltipProps) => {
   return (
     <Tooltip delayDuration={0}>
-      <TooltipTrigger>
+      <TooltipTrigger asChild>
         {children}
       </TooltipTrigger>
       <TooltipContent>
