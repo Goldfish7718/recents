@@ -19,6 +19,15 @@ const Limelight = () => {
   const bottomRef = useRef<HTMLDivElement>(null)
   const { toast } = useToast()
 
+  const copyToClipBoard = async (copyText: string) => {
+    navigator.clipboard.writeText(copyText).then(() => {
+      toast({
+        title: "Copied to Clipboard!",
+        duration: 1000
+      })
+    })
+  }
+
   const executeSuggestedPrompt = (suggestedPrompt: string) => {
     setPrompt(suggestedPrompt);
     getLimelightResponse(suggestedPrompt);
@@ -109,7 +118,7 @@ const Limelight = () => {
 
                 <div className="flex mt-2">
                   <CustomTooltip label="Copy">
-                    <Button variant="outline" size='sm' className="bg-neutral-100 hover:bg-neutral-200">
+                    <Button variant="outline" size='sm' className="bg-neutral-100 hover:bg-neutral-200" onClick={() => copyToClipBoard(item)}>
                       <Clipboard size={16} />
                     </Button>
                   </CustomTooltip>
@@ -122,16 +131,16 @@ const Limelight = () => {
 
                   <div className="flex mt-2 gap-2">
                     <CustomTooltip label="Copy">
-                      <Button variant="outline" size='sm' className="bg-neutral-100 hover:bg-neutral-200">
+                      <Button variant="outline" size='sm' className="bg-neutral-100 hover:bg-neutral-200" onClick={() => copyToClipBoard(responses[index])}>
                         <Clipboard size={16} />
                       </Button>
                     </CustomTooltip>
                     
-                    <CustomTooltip label="Regenerate">
+                    {/* <CustomTooltip label="Regenerate">
                       <Button variant="outline" size='sm' className="bg-neutral-100 hover:bg-neutral-200">
                         <RefreshCcw size={16} />
                       </Button>
-                    </CustomTooltip>
+                    </CustomTooltip> */}
                   </div>
                 </div> : 
                 <div className="bg-neutral-100 p-3 mr-auto rounded-md m-2 w-fit">
