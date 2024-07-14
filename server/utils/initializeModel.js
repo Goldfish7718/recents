@@ -80,7 +80,7 @@ export const getLimelightModel = () => {
      
 
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro", systemInstruction: `You will be given JSON data in the format {"prompt": string, "fullArticles": []}. You have to summarize all the articles and make a response that will suit as a valid answer to the prompt field. Only respond in paragraphs. Do not attach anything else to it.`, safetySettings });
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro", systemInstruction: `You will be given JSON data in the format {"prompt": string, "fullArticles": []}. You have to summarize all the articles and make a response that will suit as a valid answer to the prompt field. Only respond in paragraphs. Do not attach anything else to it. Do not start the response out of context from the prompt if the given articles are irrelavant and always start with something related to the prompt. If you can't make any information only respond with "I don't have any specific information about {topic name}". Insert the actual topic name in {topic name}`, safetySettings });
 
   return model
 }
