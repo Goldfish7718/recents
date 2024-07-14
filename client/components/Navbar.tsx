@@ -55,8 +55,8 @@ const Navbar = () => {
                         </SheetClose>
                         <SheetClose asChild>
                             <Button variant='outline' onClick={() => router.push('/dashboard/limelight')}>
-                                Limelight <Cpu size={18} className="mx-1" /> 
-                                <Badge variant="success">Coming Soon</Badge>
+                                Limelight AI<Cpu size={18} className="mx-1" /> 
+                                <Badge variant="new">New</Badge>
                             </Button>
                         </SheetClose>
                         
