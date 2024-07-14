@@ -80,7 +80,7 @@ const Limelight = () => {
             <Card className="bg-blue-100 hover:bg-blue-200 hover:cursor-pointer" onClick={() => executeSuggestedPrompt("What's the weather in Mumbai?")}>
               <CardContent className="pt-4 flex flex-col gap-1">
                 <p className="text-sm text-neutral-700">General</p>
-                <h1 className="text-sm">What's the weather in Mumbai? <ArrowRight size={16} className="mx-1" /></h1>
+                <h1 className="text-sm">What&apos;s the weather in Mumbai? <ArrowRight size={16} className="mx-1" /></h1>
               </CardContent>
             </Card>
             <Card className="bg-green-100 hover:bg-green-200 hover:cursor-pointer" onClick={() => executeSuggestedPrompt("Who won the Lok Sabha elections?")}>
