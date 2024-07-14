@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { ArrowRight, Clipboard, Loader2, RefreshCcw, SendHorizonal } from "lucide-react"
-import chat from '@/data/chat.json'
 import CustomTooltip from "@/components/CustomTooltip"
 import { useEffect, useRef, useState } from "react"
 import axios from "axios"
+import { useToast } from "@/components/ui/use-toast"
 
 const Limelight = () => {
 
@@ -15,19 +15,23 @@ const Limelight = () => {
   const [responses, setResponses] = useState<string[]>([]);
 
   const [prompt, setPrompt] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const bottomRef = useRef<HTMLDivElement>(null)
+  const { toast } = useToast()
 
-  const getLimelightResponse = async () => {
+  const executeSuggestedPrompt = (suggestedPrompt: string) => {
+    setPrompt(suggestedPrompt);
+    getLimelightResponse(suggestedPrompt);
+  }
+
+  const getLimelightResponse = async (currentPrompt: string) => {
     try {
-      setLoading(true)
-      setPrompts([...prompts, prompt])
+      setPrompts([...prompts, currentPrompt])
       
       setPrompt("")
 
       const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/news/limelight`, {
-        prompt
+        prompt: currentPrompt
       })
 
       setResponses([...responses, res.data.response])
@@ -35,74 +39,72 @@ const Limelight = () => {
       console.log(res.data.response);
     } catch (error) {
       console.log(error);
-    } finally {
-      setLoading(false)
+      toast({
+        title: "Internal Server Error",
+        description: "Please try late",
+        duration: 5000,
+        variant: 'destructive'
+      })
     }
   }
 
-  const addPromptAndResponse = () => {
-    const newPrompt = `Prompt ${prompts.length + 1}`;
-    const newResponse = `Response ${responses.length + 1}`;
-
-    setPrompts([...prompts, newPrompt]);
-    setResponses([...responses, newResponse]);
-  };
-
   useEffect(() => {
-    // if (bottomRef.current) {
-    //   bottomRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
-    // }
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
 
     window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   }, [prompts, responses]);
 
   return (
     <div>
-      {/* <div className="mt-20">
-        TITLE
-        <section className="text-center">
-          <p className="text-4xl">
-            Introducing 
-            <span className="text-green-500"> Limelight AI</span>
-          </p>
-          <p className="text-neutral-700">A chatbot to get any news you want.</p>
-        </section>
+      {prompts.length == 0 &&
+        <div className="mt-20">
+          {/* TITLE */}
+          <section className="text-center">
+            <p className="text-4xl">
+              Introducing 
+              <span className="text-green-500"> Limelight AI</span>
+            </p>
+            <p className="text-neutral-700">A chatbot to get any news you want.</p>
+          </section>
 
-        INPUT EXAMPLES
-        <section className="grid grid-cols-2 grid-rows-2 gap-3 md:w-2/3 lg:w-1/2 mx-auto mt-8">
-          <Card className="bg-red-100 hover:bg-red-200 hover:cursor-pointer">
-            <CardContent className="pt-4 flex flex-col gap-1">
-              <p className="text-sm text-neutral-700">Sports</p>
-              <h1 className="text-sm">Who won the British Grand Prix? <ArrowRight size={16} className="mx-1" /></h1>
-            </CardContent>
-          </Card>
-          <Card className="bg-blue-100 hover:bg-blue-200 hover:cursor-pointer">
-            <CardContent className="pt-4 flex flex-col gap-1">
-              <p className="text-sm text-neutral-700">General</p>
-              <h1 className="text-sm">What's the weather in Mumbai? <ArrowRight size={16} className="mx-1" /></h1>
-            </CardContent>
-          </Card>
-          <Card className="bg-green-100 hover:bg-green-200 hover:cursor-pointer">
-            <CardContent className="pt-4 flex flex-col gap-1">
-              <p className="text-sm text-neutral-700">Politics</p>
-              <h1 className="text-sm">Who won the Lok Sabha elections? <ArrowRight size={16} className="mx-1" /></h1>
-            </CardContent>
-          </Card>
-          <Card className="bg-yellow-100 hover:bg-yellow-200 hover:cursor-pointer">
-            <CardContent className="pt-4 flex flex-col gap-1">
-              <p className="text-sm text-neutral-700">Global</p>
-              <h1 className="text-sm">When is the G20 summit? <ArrowRight size={16} className="mx-1" /></h1>
-            </CardContent>
-          </Card>
-        </section>
-      </div> */}
+          {/* INPUT EXAMPLES */}
+          <section className="grid grid-cols-2 grid-rows-2 gap-3 md:w-2/3 lg:w-1/2 mx-auto mt-8">
+            <Card className="bg-red-100 hover:bg-red-200 hover:cursor-pointer" onClick={() => executeSuggestedPrompt("Who won the British Grand Prix?")}>
+              <CardContent className="pt-4 flex flex-col gap-1">
+                <p className="text-sm text-neutral-700">Sports</p>
+                <h1 className="text-sm">Who won the British Grand Prix? <ArrowRight size={16} className="mx-1" /></h1>
+              </CardContent>
+            </Card>
+            <Card className="bg-blue-100 hover:bg-blue-200 hover:cursor-pointer" onClick={() => executeSuggestedPrompt("What's the weather in Mumbai?")}>
+              <CardContent className="pt-4 flex flex-col gap-1">
+                <p className="text-sm text-neutral-700">General</p>
+                <h1 className="text-sm">What's the weather in Mumbai? <ArrowRight size={16} className="mx-1" /></h1>
+              </CardContent>
+            </Card>
+            <Card className="bg-green-100 hover:bg-green-200 hover:cursor-pointer" onClick={() => executeSuggestedPrompt("Who won the Lok Sabha elections?")}>
+              <CardContent className="pt-4 flex flex-col gap-1">
+                <p className="text-sm text-neutral-700">Politics</p>
+                <h1 className="text-sm">Who won the Lok Sabha elections? <ArrowRight size={16} className="mx-1" /></h1>
+              </CardContent>
+            </Card>
+            <Card className="bg-yellow-100 hover:bg-yellow-200 hover:cursor-pointer" onClick={() => executeSuggestedPrompt("When is the G20 summit?")}>
+              <CardContent className="pt-4 flex flex-col gap-1">
+                <p className="text-sm text-neutral-700">Global</p>
+                <h1 className="text-sm">When is the G20 summit? <ArrowRight size={16} className="mx-1" /></h1>
+              </CardContent>
+            </Card>
+          </section>
+        </div>
+      }
 
 
       {/* CHAT INTERFACE */}
       <div className="mb-12">
-        {prompts.map((item, index) => (
+        {prompts.length > 0 && prompts.map((item, index) => (
             <div key={index}>
-              <div className="bg-neutral-100 p-3 ml-auto rounded-md w-1/2 m-2">
+              <div className="bg-neutral-100 p-3 ml-auto rounded-md w-2/3 sm:w-1/2 m-2">
                 {item}
 
                 <div className="flex mt-2">
@@ -144,7 +146,7 @@ const Limelight = () => {
       {/* INPUT */}
       <div className="flex gap-3 fixed bottom-2 right-2 left-2 sm:left-[308px]">
         <Input placeholder="Chat with Limelight" onChange={e => setPrompt(e.target.value)} value={prompt} />
-        <Button variant='outline' onClick={addPromptAndResponse}><SendHorizonal size={18} /></Button>
+        <Button variant='outline' onClick={() => getLimelightResponse(prompt)}><SendHorizonal size={18} /></Button>
       </div>
 
       <div ref={bottomRef} className="mb-10"></div>

@@ -81,8 +81,6 @@ export const getLimelightResponse = async (req, res) => {
 
         const parameters = JSON.parse(text);
 
-        console.log(parameters);
-
         const newsResponse = await axios.get(`https://newsapi.org/v2/everything?q=${parameters.q}&from=${parameters.from}&to=${parameters.to}&pageSize=2&apiKey=${process.env.NEWS_API_KEY}`)
         const { data: articles } = newsResponse
 
@@ -100,8 +98,6 @@ export const getLimelightResponse = async (req, res) => {
                 return null;
             }
         }));
-
-        console.log(fullArticles)
 
         const limelightPrompt = {
             prompt: parameters.q,
