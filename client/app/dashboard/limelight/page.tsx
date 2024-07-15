@@ -3,11 +3,13 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { ArrowRight, Clipboard, Loader2, RefreshCcw, SendHorizonal } from "lucide-react"
+import { ArrowRight, Clipboard, Loader2, OctagonAlert, RefreshCcw, SendHorizonal } from "lucide-react"
 import CustomTooltip from "@/components/CustomTooltip"
 import { useEffect, useRef, useState } from "react"
 import axios from "axios"
 import { useToast } from "@/components/ui/use-toast"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { TextGenerateEffect } from "@/components/text-generate-effect"
 
 const Limelight = () => {
 
@@ -48,12 +50,7 @@ const Limelight = () => {
       console.log(res.data.response);
     } catch (error) {
       console.log(error);
-      toast({
-        title: "Internal Server Error",
-        description: "Please try late",
-        duration: 5000,
-        variant: 'destructive'
-      })
+      setResponses([...responses, 'error'])
     }
   }
 
@@ -72,8 +69,13 @@ const Limelight = () => {
           {/* TITLE */}
           <section className="text-center">
             <p className="text-4xl">
-              Introducing 
-              <span className="text-green-500"> Limelight AI</span>
+              Introducing&nbsp; 
+              <span className="text-green-500"> 
+                Limelight AI&nbsp; 
+              </span>
+              <span className="text-neutral-400 text-lg">
+                version 1.1.0
+              </span>
             </p>
             <p className="text-neutral-700">A chatbot to get any news you want.</p>
           </section>
@@ -126,23 +128,33 @@ const Limelight = () => {
               </div>
             
               {responses[index] ?
-                <div className="bg-neutral-100 p-3 mr-auto rounded-md w-2/3 m-2">
-                  {responses[index]}
-
+                <>
+                {responses[index] !== 'error' ?
+                  <div className="bg-neutral-100 p-3 mr-auto rounded-md w-2/3 m-2">
+                    <TextGenerateEffect words={responses[index]} />
+                  
                   <div className="flex mt-2 gap-2">
-                    <CustomTooltip label="Copy">
-                      <Button variant="outline" size='sm' className="bg-neutral-100 hover:bg-neutral-200" onClick={() => copyToClipBoard(responses[index])}>
-                        <Clipboard size={16} />
-                      </Button>
-                    </CustomTooltip>
+                  <CustomTooltip label="Copy">
+                  <Button variant="outline" size='sm' className="bg-neutral-100 hover:bg-neutral-200" onClick={() => copyToClipBoard(responses[index])}>
+                  <Clipboard size={16} />
+                  </Button>
+                  </CustomTooltip>
                     
-                    {/* <CustomTooltip label="Regenerate">
-                      <Button variant="outline" size='sm' className="bg-neutral-100 hover:bg-neutral-200">
-                        <RefreshCcw size={16} />
-                      </Button>
+                  {/* <CustomTooltip label="Regenerate">
+                    <Button variant="outline" size='sm' className="bg-neutral-100 hover:bg-neutral-200">
+                    <RefreshCcw size={16} />
+                    </Button>
                     </CustomTooltip> */}
-                  </div>
-                </div> : 
+                    </div>
+                  </div> :
+                  <Alert className="p-3 mr-auto rounded-md w-2/3 m-2" variant='destructive'>
+                    <OctagonAlert className="w-4 h-4" />
+                    <AlertTitle>Error Generating responses</AlertTitle>
+                    <AlertDescription>Please try later</AlertDescription>
+                  </Alert>
+                }
+                </>
+                : 
                 <div className="bg-neutral-100 p-3 mr-auto rounded-md m-2 w-fit">
                   <Loader2 className="animate-spin duration-300" />
                 </div>
