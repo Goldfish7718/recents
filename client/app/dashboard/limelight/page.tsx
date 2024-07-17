@@ -10,11 +10,14 @@ import axios from "axios"
 import { useToast } from "@/components/ui/use-toast"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { TextGenerateEffect } from "@/components/text-generate-effect"
+import { LimelightResponse } from "@/types/types"
+import { Separator } from "@/components/ui/separator"
+import Link from "next/link"
 
 const Limelight = () => {
 
   const [prompts, setPrompts] = useState<string[]>([]);
-  const [responses, setResponses] = useState<string[]>([]);
+  const [responses, setResponses] = useState<LimelightResponse[]>([]);
 
   const [prompt, setPrompt] = useState("");
 
@@ -45,12 +48,21 @@ const Limelight = () => {
         prompt: currentPrompt
       })
 
-      setResponses([...responses, res.data.response])
+      setResponses([...responses, res.data.finalResponse])
 
       console.log(res.data.response);
     } catch (error) {
       console.log(error);
-      setResponses([...responses, 'error'])
+
+      const errorObject: LimelightResponse = {
+        response: '',
+        sourceLinks: [],
+        sourceNames: [],
+        image: '',
+        error: true
+      }
+
+      setResponses([...responses, errorObject])
     }
   }
 
@@ -129,22 +141,40 @@ const Limelight = () => {
             
               {responses[index] ?
                 <>
-                {responses[index] !== 'error' ?
+                {!responses[index].error ?
                   <div className="bg-neutral-100 p-3 mr-auto rounded-md w-2/3 m-2">
-                    <TextGenerateEffect words={responses[index]} />
+                    <div className="mb-4">
+                      <img src={responses[index].image} className='w-full object-cover rounded-md animate-fadeIn' alt="image"/>
+                    </div>
+                    <TextGenerateEffect words={responses[index].response} />
                   
-                  <div className="flex mt-2 gap-2">
-                  <CustomTooltip label="Copy">
-                  <Button variant="outline" size='sm' className="bg-neutral-100 hover:bg-neutral-200" onClick={() => copyToClipBoard(responses[index])}>
-                  <Clipboard size={16} />
-                  </Button>
-                  </CustomTooltip>
-                    
-                  {/* <CustomTooltip label="Regenerate">
-                    <Button variant="outline" size='sm' className="bg-neutral-100 hover:bg-neutral-200">
-                    <RefreshCcw size={16} />
-                    </Button>
-                    </CustomTooltip> */}
+                    <div className="flex mt-2 gap-2">
+                      <CustomTooltip label="Copy">
+                      <Button variant="outline" size='sm' className="bg-neutral-100 hover:bg-neutral-200" onClick={() => copyToClipBoard(responses[index].response)}>
+                      <Clipboard size={16} />
+                      </Button>
+                      </CustomTooltip>
+                        
+                      {/* <CustomTooltip label="Regenerate">
+                        <Button variant="outline" size='sm' className="bg-neutral-100 hover:bg-neutral-200">
+                        <RefreshCcw size={16} />
+                        </Button>
+                        </CustomTooltip> */}
+                    </div>
+
+                    <Separator className="my-2" />
+
+                    <div>
+                      <p className="text-neutral-600 text-sm">Sources:</p>
+                      <div className="ml-4">
+                        {responses[index].sourceLinks.map((sourceLink, sourceIndex) => (
+                          <>
+                            <Link className="text-neutral-600 text-sm underline decoration-neutral-600" href={sourceLink} target="_blank">{responses[index].sourceNames[sourceIndex]}</Link>
+                            <br />
+                          </>
+                        ))
+                        }
+                      </div>
                     </div>
                   </div> :
                   <Alert className="p-3 mr-auto rounded-md w-2/3 m-2" variant='destructive'>
@@ -167,7 +197,7 @@ const Limelight = () => {
       {/* INPUT */}
       <div className="flex gap-3 fixed bottom-2 right-2 left-2 sm:left-[308px]">
         <Input placeholder="Chat with Limelight" onChange={e => setPrompt(e.target.value)} value={prompt} />
-        <Button variant='outline' onClick={() => getLimelightResponse(prompt)}><SendHorizonal size={18} /></Button>
+        <Button variant='outline' onClick={() => getLimelightResponse(prompt)} disabled={!prompt ? true : false}><SendHorizonal size={18} /></Button>
       </div>
 
       <div ref={bottomRef} className="mb-10"></div>

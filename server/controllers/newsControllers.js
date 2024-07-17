@@ -82,13 +82,13 @@ export const getLimelightResponse = async (req, res) => {
         const parameters = JSON.parse(text);
 
         const newsResponse = await axios.get(`https://newsapi.org/v2/everything?q=${parameters.q}&from=${parameters.from}&to=${parameters.to}&pageSize=2&apiKey=${process.env.NEWS_API_KEY}`)
-        const { data: articles } = newsResponse
 
-        const fullArticles = await Promise.all(articles.articles.map(async article => {
+        const fullArticles = await Promise.all(newsResponse.data.articles.map(async article => {
             const response = await axios.get(article.url);
             let dom = new JSDOM(response.data, {
                 url: article.url
             });
+            
             let parsedArticle = new Readability(dom.window.document).parse();
             
             if (parsedArticle && parsedArticle.textContent) {
@@ -107,10 +107,17 @@ export const getLimelightResponse = async (req, res) => {
         result = await limelightModel.generateContent(JSON.stringify(limelightPrompt));
         response = await result.response;
         text = response.text();
+
+        const finalResponse = {
+            response: text,
+            sourceLinks: newsResponse.data.articles.map(article => article.url),
+            image: newsResponse.data.articles[0].urlToImage,
+            sourceNames: newsResponse.data.articles.map(article => article.source.name)
+        }
         
         res
             .status(200)
-            .json({ response: text })
+            .json({ finalResponse })
     } catch (error) {
         console.log(error);
         res
