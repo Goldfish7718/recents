@@ -11,7 +11,6 @@ import { useToast } from "@/components/ui/use-toast"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { TextGenerateEffect } from "@/components/text-generate-effect"
 import { LimelightResponse } from "@/types/types"
-import response from '@/data/limelightResponse.json'
 import { Separator } from "@/components/ui/separator"
 import Link from "next/link"
 
