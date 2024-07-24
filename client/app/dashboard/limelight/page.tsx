@@ -13,6 +13,7 @@ import { TextGenerateEffect } from "@/components/text-generate-effect"
 import { LimelightResponse } from "@/types/types"
 import { Separator } from "@/components/ui/separator"
 import Link from "next/link"
+import { socket } from "@/app/globals"
 
 const Limelight = () => {
 
@@ -44,13 +45,7 @@ const Limelight = () => {
       
       setPrompt("")
 
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/news/limelight`, {
-        prompt: currentPrompt
-      })
-
-      setResponses([...responses, res.data.finalResponse])
-
-      console.log(res.data.response);
+      socket.emit('get_response', { prompt: currentPrompt })
     } catch (error) {
       console.log(error);
 
@@ -74,6 +69,12 @@ const Limelight = () => {
     window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   }, [prompts, responses]);
 
+  useEffect(() => {
+    socket.on('receive', (data) => {
+      setResponses([...responses, data])
+    })
+  }, [prompts, responses])
+
   return (
     <div>
       {prompts.length == 0 &&
@@ -86,7 +87,7 @@ const Limelight = () => {
                 Limelight AI&nbsp; 
               </span>
               <span className="text-neutral-400 text-lg">
-                version 1.1.0
+                version 1.4.0
               </span>
             </p>
             <p className="text-neutral-700">A chatbot to get any news you want.</p>
