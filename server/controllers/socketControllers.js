@@ -51,6 +51,12 @@ export const getLimelightResponse = async (prompt) => {
         return finalResponse
     } catch (error) {
         console.log(error);
-        return "Internal server error"
+        return {
+            response: '',
+            sourceLinks: [],
+            sourceNames: [],
+            image: '',
+            error: true
+        }
     }
 }

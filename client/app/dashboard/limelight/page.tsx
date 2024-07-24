@@ -87,7 +87,7 @@ const Limelight = () => {
                 Limelight AI&nbsp; 
               </span>
               <span className="text-neutral-400 text-lg">
-                version 1.4.0
+                version 1.4.1
               </span>
             </p>
             <p className="text-neutral-700">A chatbot to get any news you want.</p>
