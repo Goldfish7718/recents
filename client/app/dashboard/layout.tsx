@@ -16,7 +16,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     const router = useRouter()
 
   return (
-    // <ProtectRoute>
+    <ProtectRoute>
     <>
         <aside className="min-h-screen fixed w-[300px] top-[72px] hidden sm:flex flex-col bg-neutral-100">
             <div className="flex flex-col">
@@ -34,7 +34,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             {children}
         </div>
     </>
-    // </ProtectRoute>
+    </ProtectRoute>
   )
 }
 
