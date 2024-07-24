@@ -6,18 +6,19 @@ import { Input } from "@/components/ui/input"
 import { ArrowRight, Clipboard, Loader2, OctagonAlert, RefreshCcw, SendHorizonal } from "lucide-react"
 import CustomTooltip from "@/components/CustomTooltip"
 import { useEffect, useRef, useState } from "react"
-import axios from "axios"
 import { useToast } from "@/components/ui/use-toast"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { TextGenerateEffect } from "@/components/text-generate-effect"
 import { LimelightResponse } from "@/types/types"
 import { Separator } from "@/components/ui/separator"
 import Link from "next/link"
+import { socket } from "@/app/globals"
 
 const Limelight = () => {
 
   const [prompts, setPrompts] = useState<string[]>([]);
   const [responses, setResponses] = useState<LimelightResponse[]>([]);
+  const [loading, setLoading] = useState('');
 
   const [prompt, setPrompt] = useState("");
 
@@ -44,13 +45,7 @@ const Limelight = () => {
       
       setPrompt("")
 
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/news/limelight`, {
-        prompt: currentPrompt
-      })
-
-      setResponses([...responses, res.data.finalResponse])
-
-      console.log(res.data.response);
+      socket.emit('get_response', { prompt: currentPrompt })
     } catch (error) {
       console.log(error);
 
@@ -74,6 +69,18 @@ const Limelight = () => {
     window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   }, [prompts, responses]);
 
+  useEffect(() => {
+    socket.on('receive', (data) => {
+      setResponses([...responses, data])
+    })
+  }, [prompts, responses])
+
+  useEffect(() => {
+    socket.on('loading', (data) => {
+      setLoading(data)
+    })
+  }, [loading])
+
   return (
     <div>
       {prompts.length == 0 &&
@@ -86,7 +93,7 @@ const Limelight = () => {
                 Limelight AI&nbsp; 
               </span>
               <span className="text-neutral-400 text-lg">
-                version 1.1.0
+                version 1.4.2
               </span>
             </p>
             <p className="text-neutral-700">A chatbot to get any news you want.</p>
@@ -185,8 +192,8 @@ const Limelight = () => {
                 }
                 </>
                 : 
-                <div className="bg-neutral-100 p-3 mr-auto rounded-md m-2 w-fit">
-                  <Loader2 className="animate-spin duration-300" />
+                <div className="bg-neutral-100 p-3 mr-auto rounded-md m-2 w-fit flex">
+                  <span>{loading}</span><Loader2 className="animate-spin duration-300 mx-1" />
                 </div>
               }
             </div>
