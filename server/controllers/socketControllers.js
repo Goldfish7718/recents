@@ -3,16 +3,20 @@ import { getLimelightModel, getParameterYieldModel } from "../utils/initializeMo
 import { JSDOM } from 'jsdom'
 import { Readability } from "@mozilla/readability";
 
-export const getLimelightResponse = async (prompt) => {
+export const getLimelightResponse = async (prompt, socket) => {
     try {
         const parameterModel = getParameterYieldModel()
         const limelightModel = getLimelightModel()
+
+        socket.emit('loading', 'Understanding request...')
 
         let result = await parameterModel.generateContent(prompt);
         let response = await result.response;
         let text = response.text();
 
         const parameters = JSON.parse(text);
+
+        socket.emit('loading', 'Fetching articles...')
 
         const newsResponse = await axios.get(`https://newsapi.org/v2/everything?q=${parameters.q}&from=${parameters.from}&to=${parameters.to}&pageSize=2&apiKey=${process.env.NEWS_API_KEY}`)
 
@@ -31,6 +35,8 @@ export const getLimelightResponse = async (prompt) => {
                 return null;
             }
         }));
+
+        socket.emit('loading', 'Summarizing articles...')
 
         const limelightPrompt = {
             prompt: parameters.q,

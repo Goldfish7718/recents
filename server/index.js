@@ -43,7 +43,7 @@ io.on('connection', (socket) => {
     console.log(`User Logged: ${socket.id}`);
 
     socket.on('get_response', async data => {
-        const res = await getLimelightResponse(data.prompt)
+        const res = await getLimelightResponse(data.prompt, socket)
         socket.emit('receive', res)
     })
 })
