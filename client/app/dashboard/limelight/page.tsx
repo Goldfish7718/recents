@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { ArrowRight, Clipboard, Loader2, OctagonAlert, RefreshCcw, SendHorizonal } from "lucide-react"
+import { ArrowRight, Clipboard, Loader2, OctagonAlert, RefreshCcw, SendHorizonal, Sparkle } from "lucide-react"
 import CustomTooltip from "@/components/CustomTooltip"
 import { useEffect, useRef, useState } from "react"
 import { useToast } from "@/components/ui/use-toast"
@@ -13,6 +13,7 @@ import { LimelightResponse } from "@/types/types"
 import { Separator } from "@/components/ui/separator"
 import Link from "next/link"
 import { socket } from "@/app/globals"
+import { Progress } from "@/components/ui/progress"
 
 const Limelight = () => {
 
@@ -21,6 +22,7 @@ const Limelight = () => {
   const [loading, setLoading] = useState('');
 
   const [prompt, setPrompt] = useState("");
+  const [progress, setProgress] = useState(0);
 
   const bottomRef = useRef<HTMLDivElement>(null)
   const { toast } = useToast()
@@ -72,12 +74,15 @@ const Limelight = () => {
   useEffect(() => {
     socket.on('receive', (data) => {
       setResponses([...responses, data])
+      setLoading('')
+      setProgress(0)
     })
   }, [prompts, responses])
 
   useEffect(() => {
     socket.on('loading', (data) => {
-      setLoading(data)
+      setLoading(data.loadPhrase)
+      setProgress(data.progress)
     })
   }, [loading])
 
@@ -93,7 +98,7 @@ const Limelight = () => {
                 Limelight AI&nbsp; 
               </span>
               <span className="text-neutral-400 text-lg">
-                version 1.4.2
+                version 1.5.2
               </span>
             </p>
             <p className="text-neutral-700">A chatbot to get any news you want.</p>
@@ -192,8 +197,12 @@ const Limelight = () => {
                 }
                 </>
                 : 
-                <div className="bg-neutral-100 p-3 mr-auto rounded-md m-2 w-fit flex">
-                  <span>{loading}</span><Loader2 className="animate-spin duration-300 mx-1" />
+                <div className="bg-neutral-100 p-3 mr-auto rounded-md m-2 flex flex-col w-2/3 gap-1">
+                  <div className="flex gap-2">
+                    <span>{loading}</span>
+                    <Sparkle className="animate-spin duration-1000" />
+                  </div>
+                  <Progress value={progress} className="" />
                 </div>
               }
             </div>
