@@ -24,6 +24,9 @@ const Limelight = () => {
   const [prompt, setPrompt] = useState("");
   const [progress, setProgress] = useState(0);
 
+  const sendButtonRef = useRef<HTMLButtonElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const bottomRef = useRef<HTMLDivElement>(null)
   const { toast } = useToast()
 
@@ -62,6 +65,13 @@ const Limelight = () => {
       setResponses([...responses, errorObject])
     }
   }
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && prompt) {
+      sendButtonRef.current?.click()
+      inputRef.current?.blur()
+    }
+  };
 
   useEffect(() => {
     if (bottomRef.current) {
@@ -212,8 +222,8 @@ const Limelight = () => {
 
       {/* INPUT */}
       <div className="flex gap-3 fixed bottom-2 right-2 left-2 sm:left-[308px]">
-        <Input placeholder="Chat with Limelight" onChange={e => setPrompt(e.target.value)} value={prompt} />
-        <Button variant='outline' onClick={() => getLimelightResponse(prompt)} disabled={!prompt ? true : false}><SendHorizonal size={18} /></Button>
+        <Input ref={inputRef} placeholder="Chat with Limelight" onChange={e => setPrompt(e.target.value)} value={prompt} onKeyDown={handleKeyPress} />
+        <Button ref={sendButtonRef} variant='outline' onClick={() => getLimelightResponse(prompt)} disabled={!prompt ? true : false}><SendHorizonal size={18} /></Button>
       </div>
 
       <div ref={bottomRef} className="mb-10"></div>
