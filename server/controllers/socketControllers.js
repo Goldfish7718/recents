@@ -5,10 +5,13 @@ import { Readability } from "@mozilla/readability";
 
 export const getLimelightResponse = async (prompt, socket) => {
     try {
+
+        socket.emit('loading', { loadPhrase: '', progress: 5 })
+
         const parameterModel = getParameterYieldModel()
         const limelightModel = getLimelightModel()
 
-        socket.emit('loading', 'Understanding request...')
+        socket.emit('loading', { loadPhrase: 'Understanding request', progress: 20 })
 
         let result = await parameterModel.generateContent(prompt);
         let response = await result.response;
@@ -16,7 +19,7 @@ export const getLimelightResponse = async (prompt, socket) => {
 
         const parameters = JSON.parse(text);
 
-        socket.emit('loading', 'Fetching articles...')
+        socket.emit('loading', { loadPhrase: 'Fetching articles', progress: 50 })
 
         const newsResponse = await axios.get(`https://newsapi.org/v2/everything?q=${parameters.q}&from=${parameters.from}&to=${parameters.to}&pageSize=2&apiKey=${process.env.NEWS_API_KEY}`)
 
@@ -36,7 +39,7 @@ export const getLimelightResponse = async (prompt, socket) => {
             }
         }));
 
-        socket.emit('loading', 'Summarizing articles...')
+        socket.emit('loading', { loadPhrase: 'Summarizing articles', progress: 80 })
 
         const limelightPrompt = {
             prompt: parameters.q,
@@ -54,6 +57,7 @@ export const getLimelightResponse = async (prompt, socket) => {
             sourceNames: newsResponse.data.articles.map(article => article.source.name)
         }
 
+        socket.emit('loading', { loadPhrase: 'Completed', progress: 100 })
         return finalResponse
     } catch (error) {
         console.log(error);
