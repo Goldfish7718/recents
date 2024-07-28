@@ -17,3 +17,12 @@ export interface LimelightResponse {
     image: string;
     error: boolean;
 }
+
+export interface UserType {
+    email: string;
+    clerkId: string;
+    interests: string[];
+    country: string;
+    limelightRequests: number;
+    dailySummariesRequests: number;
+}

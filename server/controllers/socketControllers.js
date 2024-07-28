@@ -2,8 +2,9 @@ import axios from "axios";
 import { getLimelightModel, getParameterYieldModel } from "../utils/initializeModel.js";
 import { JSDOM } from 'jsdom'
 import { Readability } from "@mozilla/readability";
+import User from "../models/userModel.js";
 
-export const getLimelightResponse = async (prompt, socket) => {
+export const getLimelightResponse = async (prompt, clerkId, socket) => {
     try {
 
         socket.emit('loading', { loadPhrase: '', progress: 5 })
@@ -49,6 +50,8 @@ export const getLimelightResponse = async (prompt, socket) => {
         result = await limelightModel.generateContent(JSON.stringify(limelightPrompt));
         response = await result.response;
         text = response.text();
+
+        await User.findOneAndUpdate({ clerkId }, { $inc: { limelightRequests: 1 } })
 
         const finalResponse = {
             response: text,

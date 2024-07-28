@@ -15,11 +15,13 @@ import { useAuth } from '@/context/AuthContext'
 import { Summary } from '@/types/types'
 import axios from 'axios'
 import { useToast } from '@/components/ui/use-toast'
+import { useUser } from '@clerk/nextjs'
 
 const DailySummaries = () => {
 
     const { user } = useAuth()
     const { toast } = useToast()
+    const { user: clerkUser } = useUser()
 
     const [category, setCategory] = useState("General");
     const [country, setCountry] = useState(user?.country);
@@ -33,7 +35,8 @@ const DailySummaries = () => {
             const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/news/daily`, {
                 category,
                 country,
-                q: keyword
+                q: keyword,
+                clerkId: clerkUser?.id
             })
 
             setSummaries(res.data.transformedSummaries)

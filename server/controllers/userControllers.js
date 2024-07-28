@@ -38,9 +38,14 @@ export const getUser = async (req, res) => {
 
         const user = await User.findOne({ clerkId })
 
-        res
-            .status(200)
-            .json({ user })
+        if (user)
+            res
+                .status(200)
+                .json({ user })
+        else 
+            res
+                .status(200)
+                .json({ user: null })
     } catch (error) {
         console.log(error);
         res
