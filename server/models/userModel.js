@@ -19,6 +19,14 @@ const userSchema = new Schema({
     country: {
         type: String,
         default: "in"
+    },
+    limelightRequests: {
+        type: Number,
+        default: 0
+    },
+    dailySummariesRequests: {
+        type: Number,
+        default: 0
     }
 }, {
     timestamps: true

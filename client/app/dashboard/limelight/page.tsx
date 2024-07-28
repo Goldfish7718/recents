@@ -14,6 +14,7 @@ import { Separator } from "@/components/ui/separator"
 import Link from "next/link"
 import { socket } from "@/app/globals"
 import { Progress } from "@/components/ui/progress"
+import { useUser } from "@clerk/nextjs"
 
 const Limelight = () => {
 
@@ -29,6 +30,7 @@ const Limelight = () => {
 
   const bottomRef = useRef<HTMLDivElement>(null)
   const { toast } = useToast()
+  const { user } = useUser()
 
   const copyToClipBoard = async (copyText: string) => {
     navigator.clipboard.writeText(copyText).then(() => {
@@ -50,7 +52,7 @@ const Limelight = () => {
       
       setPrompt("")
 
-      socket.emit('get_response', { prompt: currentPrompt })
+      socket.emit('get_response', { prompt: currentPrompt, clerkId: user?.id })
     } catch (error) {
       console.log(error);
 
