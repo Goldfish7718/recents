@@ -11,7 +11,13 @@ config()
 // ROUTE IMPORTS
 import userRoutes from './routes/userRoutes.js'
 import newsRoutes from './routes/newsRoutes.js'
+import statRoutes from './routes/statRoutes.js'
+
+// SOCKET FUNCTION IMPORTS
 import { getLimelightResponse } from './controllers/socketControllers.js'
+
+// SCRIPT IMPORTS
+import './scripts/resetRequests.js'
 
 const app = express()
 const PORT = 5000
@@ -31,6 +37,7 @@ app.use(express.urlencoded({ extended: true }))
 // ROUTES MIDDLEWARE
 app.use('/user', userRoutes)
 app.use('/news', newsRoutes)
+app.use('/stats', statRoutes)
 
 const io = new Server(server, {
     cors: {
