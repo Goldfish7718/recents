@@ -3,14 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import { useUser } from "@clerk/nextjs";
 import axios from 'axios';
-
-interface UserType {
-    clerkId: string;
-    email: string;
-    interests: string[];
-    country: string;
-    _id: string;
-}
+import { UserType } from "@/types/types";
 
 interface AuthProviderProps {
     children: React.ReactNode
