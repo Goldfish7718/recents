@@ -62,7 +62,7 @@ cron.schedule('0 0 0 * * *', async () => {
     } catch (error) {
       console.error('Error resetting user requests:', error);
     }
-});
+}, {timezone:'Asia/Calcutta'});
 
 
 
