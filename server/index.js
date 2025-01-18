@@ -39,6 +39,10 @@ app.use('/user', userRoutes)
 app.use('/news', newsRoutes)
 app.use('/stats', statRoutes)
 
+app.get('/', (req, res) => {
+    res.send("Recents Server")
+})
+
 const io = new Server(server, {
     cors: {
       origin: process.env.ORIGIN,
