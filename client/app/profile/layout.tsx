@@ -1,15 +1,11 @@
 import ProtectRoute from "@/components/ProtectRoute";
 
 interface ProfileLayoutProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 const ProfileLayout = ({ children }: ProfileLayoutProps) => {
-  return (
-    <ProtectRoute>
-      {children}
-    </ProtectRoute>        
-  )
-}
+  return <>{children}</>;
+};
 
-export default ProfileLayout
+export default ProfileLayout;
