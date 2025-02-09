@@ -1,6 +1,5 @@
 "use client";
 
-import ProtectRoute from "@/components/ProtectRoute";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SignOutButton } from "@clerk/nextjs";
