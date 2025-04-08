@@ -2,23 +2,53 @@
   "prompts": [
     {
       "prompt": "What is the capital of France?",
-      "response": "The capital of France is Paris. Located along the Seine River in the northern part of the country, Paris is known for its rich history, iconic landmarks such as the Eiffel Tower and the Louvre Museum, and its influence on art, fashion, and culture. It is also a major global hub for commerce, diplomacy, and tourism."
+      "response": {
+        "response": "The capital of France is Paris. Located along the Seine River in the northern part of the country, Paris is known for its rich history, iconic landmarks such as the Eiffel Tower and the Louvre Museum, and its influence on art, fashion, and culture. It is also a major global hub for commerce, diplomacy, and tourism.",
+        "sourceLinks": ["https://en.wikipedia.org/wiki/Paris"],
+        "sourceNames": ["Wikipedia"],
+        "image": "https://example.com/paris.jpg",
+        "error": false
+      }
     },
     {
       "prompt": "Who wrote 'To Kill a Mockingbird'?",
-      "response": "'To Kill a Mockingbird' was written by Harper Lee and published in 1960. The novel is a classic of modern American literature, widely praised for its exploration of racial injustice, morality, and human empathy. Set in the Deep South during the 1930s, the story follows young Scout Finch as she learns about prejudice and justice through the experiences of her father, Atticus Finch, a lawyer defending a Black man falsely accused of a crime."
+      "response": {
+        "response": "'To Kill a Mockingbird' was written by Harper Lee and published in 1960. The novel is a classic of modern American literature, widely praised for its exploration of racial injustice, morality, and human empathy. Set in the Deep South during the 1930s, the story follows young Scout Finch as she learns about prejudice and justice through the experiences of her father, Atticus Finch, a lawyer defending a Black man falsely accused of a crime.",
+        "sourceLinks": ["https://en.wikipedia.org/wiki/To_Kill_a_Mockingbird"],
+        "sourceNames": ["Wikipedia"],
+        "image": "https://example.com/tokillamockingbird.jpg",
+        "error": false
+      }
     },
     {
       "prompt": "What is the speed of light?",
-      "response": "The speed of light in a vacuum is approximately 299,792 kilometers per second (186,282 miles per second). This fundamental constant, often denoted as 'c', plays a crucial role in physics, particularly in Einstein's theory of relativity. It represents the maximum speed at which information and energy can travel through space. The speed of light also influences time dilation, meaning that as objects approach this speed, time slows down relative to an outside observer."
+      "response": {
+        "response": "The speed of light in a vacuum is approximately 299,792 kilometers per second (186,282 miles per second). This fundamental constant, often denoted as 'c', plays a crucial role in physics, particularly in Einstein's theory of relativity. It represents the maximum speed at which information and energy can travel through space. The speed of light also influences time dilation, meaning that as objects approach this speed, time slows down relative to an outside observer.",
+        "sourceLinks": ["https://www.nasa.gov/speed-of-light"],
+        "sourceNames": ["NASA"],
+        "image": "https://example.com/speedoflight.jpg",
+        "error": false
+      }
     },
     {
       "prompt": "Tell me a joke.",
-      "response": "Why don’t skeletons fight each other? Because they don’t have the guts! Humor like this relies on wordplay and double meanings, making jokes an entertaining way to play with language. Jokes often use puns, irony, or absurdity to surprise and amuse the listener, creating a shared moment of laughter."
+      "response": {
+        "response": "Why don’t skeletons fight each other? Because they don’t have the guts! Humor like this relies on wordplay and double meanings, making jokes an entertaining way to play with language. Jokes often use puns, irony, or absurdity to surprise and amuse the listener, creating a shared moment of laughter.",
+        "sourceLinks": [],
+        "sourceNames": [],
+        "image": "https://example.com/joke.jpg",
+        "error": false
+      }
     },
     {
       "prompt": "How does photosynthesis work?",
-      "response": "Photosynthesis is the process by which plants, algae, and some bacteria convert sunlight into chemical energy. It occurs primarily in the chloroplasts of plant cells, where chlorophyll captures light energy to drive chemical reactions. These reactions transform carbon dioxide and water into glucose and oxygen. This process not only sustains the plants themselves but also produces the oxygen necessary for most life forms on Earth. Photosynthesis is fundamental to the global carbon cycle and plays a key role in maintaining atmospheric balance."
+      "response": {
+        "response": "Photosynthesis is the process by which plants, algae, and some bacteria convert sunlight into chemical energy. It occurs primarily in the chloroplasts of plant cells, where chlorophyll captures light energy to drive chemical reactions. These reactions transform carbon dioxide and water into glucose and oxygen. This process not only sustains the plants themselves but also produces the oxygen necessary for most life forms on Earth. Photosynthesis is fundamental to the global carbon cycle and plays a key role in maintaining atmospheric balance.",
+        "sourceLinks": ["https://www.britannica.com/science/photosynthesis"],
+        "sourceNames": ["Britannica"],
+        "image": "https://example.com/photosynthesis.jpg",
+        "error": false
+      }
     }
   ]
 }

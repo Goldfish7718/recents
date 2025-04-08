@@ -2,27 +2,33 @@ import { View, Text, ScrollView, FlatList, StyleSheet, Pressable } from 'react-n
 import React from 'react';
 import { Copy } from 'lucide-react-native';
 
-interface ChatInterfaceProps {
-  chatHistory: {
-    prompt: string;
-    response: string;
-  }[];
+export interface ChatInterfaceProps {
+  prompt: string;
+  response: LimelightResponse;
 }
 
-const ChatInterface = ({ chatHistory }: ChatInterfaceProps) => {
+export interface LimelightResponse {
+  response: string;
+  sourceLinks: string[];
+  sourceNames: string[];
+  image: string;
+  error: boolean;
+}
+
+const ChatInterface = (props: ChatInterfaceProps[]) => {
   return (
     <View className="flex-1">
       <FlatList
-        data={chatHistory}
-        keyExtractor={(chatHistory, index) => index.toString()}
+        data={props}
+        keyExtractor={(_, index) => index.toString()}
         renderItem={({ item, index }) => (
-          <View style={index == chatHistory.length - 1 ? { paddingBottom: 120 } : null}>
+          <View style={index == props.length - 1 ? { paddingBottom: 120 } : null}>
             <View style={styles.promptContainer}>
               <Text style={styles.prompt}>{item.prompt}</Text>
             </View>
 
             <View style={styles.responseContainer}>
-              <Text style={styles.response}>{item.response}</Text>
+              <Text style={styles.response}>{item.response.response}</Text>
 
               <Pressable style={styles.copyButton}>
                 <Copy color="gray" />
