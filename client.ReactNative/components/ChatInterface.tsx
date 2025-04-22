@@ -122,35 +122,89 @@ const LimelightMobile = () => {
           }>
           {prompts.length === 0 ? (
             <View style={styles.intro}>
-              <Image
-                source={{
-                  uri: "https://placehold.co/200x200/10b981/ffffff?text=LM",
-                }}
-                style={styles.logo}
-              />
+              <View style={styles.logoContainer}>
+                <Image
+                  source={{
+                    uri: "https://placehold.co/200x200/10b981/FFFFFF?text=LM&font=montserrat",
+                  }}
+                  style={styles.logo}
+                />
+                <View style={styles.logoGlow} />
+              </View>
+
               <Text style={styles.title}>
-                Introducing{" "}
-                <Text style={{ color: "#10b981" }}>Limelight AI</Text>{" "}
-                <Text style={styles.version}>v1.5.2</Text>
-              </Text>
-              <Text style={styles.subtitle}>
-                A chatbot to get any news you want.
+                <Text style={styles.titleAccent}>Limelight</Text> AI
               </Text>
 
-              <View style={styles.grid}>
-                {[
-                  "Who won the British Grand Prix?",
-                  "What's the weather in Mumbai?",
-                  "Who won the Lok Sabha elections?",
-                  "When is the G20 summit?",
-                ].map((text, i) => (
+              <Text style={styles.subtitle}>
+                Your intelligent news assistant
+              </Text>
+
+              {/* Grid Container */}
+              <View style={styles.gridContainer}>
+                {/* Row 1 */}
+                <View style={styles.gridRow}>
                   <Pressable
-                    key={i}
-                    style={styles.card}
-                    onPress={() => handleSuggestedPrompt(text)}>
-                    <Text style={styles.cardText}>{text}</Text>
+                    style={[styles.gridCard, { backgroundColor: "#F59E0B" }]}
+                    onPress={() =>
+                      handleSuggestedPrompt("Who won the British Grand Prix?")
+                    }>
+                    <Text style={styles.gridCardIcon}>🏎️</Text>
+                    <Text style={styles.gridCardText}>Sports News</Text>
                   </Pressable>
-                ))}
+
+                  <Pressable
+                    style={[styles.gridCard, { backgroundColor: "#3B82F6" }]}
+                    onPress={() =>
+                      handleSuggestedPrompt("What's the weather in Mumbai?")
+                    }>
+                    <Text style={styles.gridCardIcon}>⛅</Text>
+                    <Text style={styles.gridCardText}>Weather</Text>
+                  </Pressable>
+                </View>
+
+                {/* Row 2 */}
+                <View style={styles.gridRow}>
+                  <Pressable
+                    style={[styles.gridCard, { backgroundColor: "#10B981" }]}
+                    onPress={() =>
+                      handleSuggestedPrompt("Who won the Lok Sabha elections?")
+                    }>
+                    <Text style={styles.gridCardIcon}>🏛️</Text>
+                    <Text style={styles.gridCardText}>Politics</Text>
+                  </Pressable>
+
+                  <Pressable
+                    style={[styles.gridCard, { backgroundColor: "#8B5CF6" }]}
+                    onPress={() =>
+                      handleSuggestedPrompt("When is the G20 summit?")
+                    }>
+                    <Text style={styles.gridCardIcon}>🌐</Text>
+                    <Text style={styles.gridCardText}>Global Events</Text>
+                  </Pressable>
+                </View>
+
+                {/* Row 3 - Single centered card */}
+                <View style={styles.gridRow}>
+                  <Pressable
+                    style={[
+                      styles.gridCard,
+                      styles.gridCardWide,
+                      { backgroundColor: "#EC4899" },
+                    ]}
+                    onPress={() =>
+                      handleSuggestedPrompt("What are today's top headlines?")
+                    }>
+                    <Text style={styles.gridCardIcon}>📰</Text>
+                    <Text style={styles.gridCardText}>Top Headlines</Text>
+                  </Pressable>
+                </View>
+              </View>
+
+              <View style={styles.watermark}>
+                <Text style={styles.watermarkText}>
+                  Ask anything about current events
+                </Text>
               </View>
             </View>
           ) : (
