@@ -111,7 +111,8 @@ const LimelightMobile = () => {
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 20}>
+        keyboardVerticalOffset={Platform.OS === "ios" ? 10 : 0}
+        enabled>
         <ScrollView
           ref={scrollRef}
           contentContainerStyle={styles.scrollContent}

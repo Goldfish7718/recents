@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#ffffff",
+    padding: 0,
   },
   navbar: {
     flexDirection: "row",
@@ -183,11 +184,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 10,
     padding: 16,
-    paddingBottom: Platform.OS === "ios" ? 34 : 20,
+    paddingBottom: 0,
     backgroundColor: "#ffffff",
     borderTopWidth: 1,
     borderColor: "#e5e7eb",
-    position: "absolute",
+    // Remove position: 'absolute' to prevent it from hiding behind keyboard
     bottom: 0,
     left: 0,
     right: 0,
