@@ -1,7 +1,11 @@
 import axios from "axios";
 import { JSDOM } from "jsdom";
 import { Readability } from "@mozilla/readability";
-import { getNewsModel } from "../utils/initializeModel.js";
+import {
+  getLimelightModel,
+  getNewsModel,
+  getParameterYieldModel,
+} from "../utils/initializeModel.js";
 import User from "../models/userModel.js";
 
 export const generateDailyNews = async (req, res) => {
@@ -79,7 +83,8 @@ export const generateDailyNews = async (req, res) => {
 };
 
 export const getLimelightResponse = async (req, res) => {
-  const { prompt, clerkId } = req.body;
+  console.log("hit");
+  const { prompt } = req.body;
 
   try {
     const parameterModel = getParameterYieldModel();
@@ -129,10 +134,10 @@ export const getLimelightResponse = async (req, res) => {
     const finalText = await summaryResponse.text();
 
     // Step 4: Track usage
-    await User.findOneAndUpdate(
-      { clerkId },
-      { $inc: { limelightRequests: 1 } }
-    );
+    // await User.findOneAndUpdate(
+    //   { clerkId },
+    //   { $inc: { limelightRequests: 1 } }
+    // );
 
     const finalResponse = {
       response: finalText,

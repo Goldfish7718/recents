@@ -22,16 +22,16 @@ const app = express();
 const PORT = 5000;
 const server = http.createServer(app);
 
-if (process.env.ORIGIN) {
-  app.use(
-    cors({
-      credentials: true,
-      origin: process.env.ORIGIN,
-    })
-  );
-} else {
-  app.use(cors());
-}
+// if (process.env.ORIGIN) {
+//   app.use(
+//     cors({
+//       credentials: true,
+//       origin: process.env.ORIGIN,
+//     })
+//   );
+// } else {
+app.use(cors());
+// }
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -60,33 +60,33 @@ io.on("connection", (socket) => {
   });
 });
 
-cron.schedule(
-  "0 0 0 * * *",
-  async () => {
-    try {
-      await User.updateMany(
-        {},
-        { $set: { limelightRequests: 0, dailySummariesRequests: 0 } }
-      );
-      console.log("All users' requests have been reset to 0");
-    } catch (error) {
-      console.error("Error resetting user requests:", error);
-    }
-  },
-  { timezone: "Asia/Calcutta" }
-);
+// cron.schedule(
+//   "0 0 0 * * *",
+//   async () => {
+//     try {
+//       await User.updateMany(
+//         {},
+//         { $set: { limelightRequests: 0, dailySummariesRequests: 0 } }
+//       );
+//       console.log("All users' requests have been reset to 0");
+//     } catch (error) {
+//       console.error("Error resetting user requests:", error);
+//     }
+//   },
+//   { timezone: "Asia/Calcutta" }
+// );
 
-cron.schedule(
-  "*/14 * * * *",
-  async () => {
-    try {
-      await fetch(process.env.SERVER_URL);
-    } catch (error) {
-      console.error("Error pinging server", error);
-    }
-  },
-  { timezone: "Asia/Calcutta" }
-);
+// cron.schedule(
+//   "*/14 * * * *",
+//   async () => {
+//     try {
+//       await fetch(process.env.SERVER_URL);
+//     } catch (error) {
+//       console.error("Error pinging server", error);
+//     }
+//   },
+//   { timezone: "Asia/Calcutta" }
+// );
 
 const connectDB = async (url) => {
   await mongoose
