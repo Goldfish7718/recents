@@ -6,22 +6,60 @@ import {
   ScrollView,
   Pressable,
   Image,
-  StyleSheet,
   KeyboardAvoidingView,
   Platform,
+  StatusBar,
+  SafeAreaView,
+  ToastAndroid,
+  Alert,
+  Linking,
 } from "react-native";
-import { Clipboard, SendHorizonal } from "lucide-react-native";
+import { Clipboard, SendHorizonal, Check, Trash2 } from "lucide-react-native";
 import * as ClipboardAPI from "expo-clipboard";
 import axios from "axios";
+import styles from "./ChatStyles";
 
 const LimelightMobile = () => {
   const [prompts, setPrompts] = useState<string[]>([]);
   const [responses, setResponses] = useState<any[]>([]);
   const [prompt, setPrompt] = useState("");
+  const [copyFeedback, setCopyFeedback] = useState<number | null>(null);
   const scrollRef = useRef<ScrollView>(null);
 
-  const copyToClipboard = async (text: string) => {
+  const copyToClipboard = async (text: string, index: number) => {
     await ClipboardAPI.setStringAsync(text);
+    setCopyFeedback(index);
+
+    // Show toast on Android
+    if (Platform.OS === "android") {
+      ToastAndroid.show("Copied to clipboard!", ToastAndroid.SHORT);
+    }
+
+    // Reset copy feedback after 2 seconds
+    setTimeout(() => {
+      setCopyFeedback(null);
+    }, 2000);
+  };
+
+  const clearChat = () => {
+    Alert.alert(
+      "Clear Chat",
+      "Are you sure you want to clear all conversations?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Clear",
+          onPress: () => {
+            setPrompts([]);
+            setResponses([]);
+          },
+          style: "destructive",
+        },
+      ]
+    );
   };
 
   const getLimelightResponse = async (currentPrompt: string) => {
@@ -54,266 +92,196 @@ const LimelightMobile = () => {
   }, [prompts, responses]);
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}>
-      <ScrollView ref={scrollRef} contentContainerStyle={styles.scrollContent}>
-        {prompts.length === 0 ? (
-          <View style={styles.intro}>
-            <Text style={styles.title}>
-              Introducing <Text style={styles.titleAccent}>Limelight AI</Text>{" "}
-              <Text style={styles.version}>v1.5.2</Text>
-            </Text>
-            <Text style={styles.subtitle}>
-              Your personalized news assistant.
-            </Text>
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
 
-            <View style={styles.grid}>
-              {[
-                "Who won the British Grand Prix?",
-                "What's the weather in Mumbai?",
-                "Who won the Lok Sabha elections?",
-                "When is the G20 summit?",
-              ].map((text, i) => (
-                <Pressable
-                  key={i}
-                  style={({ pressed }) => [
-                    styles.card,
-                    pressed && { opacity: 0.8, transform: [{ scale: 0.98 }] },
-                  ]}
-                  onPress={() => handleSuggestedPrompt(text)}>
-                  <Text style={styles.cardText}>{text}</Text>
-                </Pressable>
-              ))}
-            </View>
-          </View>
-        ) : (
-          prompts.map((item, index) => (
-            <View key={index}>
-              <View style={styles.userBubble}>
-                <Text style={styles.messageText}>{item}</Text>
-                <Pressable
-                  onPress={() => copyToClipboard(item)}
-                  style={styles.iconBtn}>
-                  <Clipboard size={16} color="#6b7280" />
-                </Pressable>
-              </View>
-
-              {responses[index] ? (
-                responses[index].error ? (
-                  <View style={styles.errorBubble}>
-                    <Text style={styles.errorTitle}>
-                      Error generating response
-                    </Text>
-                    <Text style={styles.errorText}>
-                      Please try again later.
-                    </Text>
-                  </View>
-                ) : (
-                  <View style={styles.botBubble}>
-                    {responses[index].image ? (
-                      <View style={styles.imageWrapper}>
-                        <Image
-                          source={{
-                            uri:
-                              responses[index].image +
-                              "?cachebust=" +
-                              Date.now(),
-                          }}
-                          style={styles.image}
-                          resizeMode="cover"
-                        />
-                      </View>
-                    ) : null}
-                    <Text style={styles.messageText}>
-                      {responses[index].response}
-                    </Text>
-                    <Pressable
-                      onPress={() => copyToClipboard(responses[index].response)}
-                      style={styles.iconBtn}>
-                      <Clipboard size={16} color="#6b7280" />
-                    </Pressable>
-                  </View>
-                )
-              ) : null}
-            </View>
-          ))
+      {/* Navbar */}
+      <View style={styles.navbar}>
+        <Text style={styles.navTitle}>Recents</Text>
+        {prompts.length > 0 && (
+          <Pressable
+            style={styles.clearButton}
+            onPress={clearChat}
+            hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}>
+            <Trash2 size={20} color="#FFFFFF" />
+          </Pressable>
         )}
-      </ScrollView>
-
-      <View style={styles.inputContainer}>
-        <TextInput
-          value={prompt}
-          onChangeText={setPrompt}
-          onSubmitEditing={() => getLimelightResponse(prompt)}
-          placeholder="Ask Limelight anything..."
-          placeholderTextColor="#9ca3af"
-          style={styles.input}
-        />
-        <Pressable
-          disabled={!prompt}
-          onPress={() => getLimelightResponse(prompt)}
-          style={({ pressed }) => [
-            styles.sendBtn,
-            pressed && { opacity: 0.7 },
-          ]}>
-          <SendHorizonal size={20} color={prompt ? "#10b981" : "#9ca3af"} />
-        </Pressable>
       </View>
-    </KeyboardAvoidingView>
+
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 20}>
+        <ScrollView
+          ref={scrollRef}
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+          onContentSizeChange={() =>
+            scrollRef.current?.scrollToEnd({ animated: true })
+          }>
+          {prompts.length === 0 ? (
+            <View style={styles.intro}>
+              <Image
+                source={{
+                  uri: "https://placehold.co/200x200/10b981/ffffff?text=LM",
+                }}
+                style={styles.logo}
+              />
+              <Text style={styles.title}>
+                Introducing{" "}
+                <Text style={{ color: "#10b981" }}>Limelight AI</Text>{" "}
+                <Text style={styles.version}>v1.5.2</Text>
+              </Text>
+              <Text style={styles.subtitle}>
+                A chatbot to get any news you want.
+              </Text>
+
+              <View style={styles.grid}>
+                {[
+                  "Who won the British Grand Prix?",
+                  "What's the weather in Mumbai?",
+                  "Who won the Lok Sabha elections?",
+                  "When is the G20 summit?",
+                ].map((text, i) => (
+                  <Pressable
+                    key={i}
+                    style={styles.card}
+                    onPress={() => handleSuggestedPrompt(text)}>
+                    <Text style={styles.cardText}>{text}</Text>
+                  </Pressable>
+                ))}
+              </View>
+            </View>
+          ) : (
+            prompts.map((item, index) => (
+              <View key={index}>
+                <View style={styles.userBubble}>
+                  <Text style={styles.messageText}>{item}</Text>
+                  <Pressable
+                    onPress={() => copyToClipboard(item, index)}
+                    style={styles.iconBtn}>
+                    {copyFeedback === index ? (
+                      <Check size={16} color="#10b981" />
+                    ) : (
+                      <Clipboard size={16} color="#6b7280" />
+                    )}
+                  </Pressable>
+                </View>
+
+                {responses[index] ? (
+                  responses[index].error ? (
+                    <View style={styles.errorBubble}>
+                      <Text style={styles.errorTitle}>
+                        Error generating response
+                      </Text>
+                      <Text style={styles.errorText}>
+                        Please try again later.
+                      </Text>
+                    </View>
+                  ) : (
+                    <View style={styles.botBubble}>
+                      {responses[index].image ? (
+                        <View style={styles.imageWrapper}>
+                          <Image
+                            source={{
+                              uri:
+                                responses[index].image +
+                                "?cachebust=" +
+                                Date.now(),
+                            }}
+                            style={styles.image}
+                            resizeMode="cover"
+                            onLoad={() => console.log("✅ Image loaded")}
+                            onError={(e) =>
+                              console.log(
+                                "❌ Image failed to load",
+                                e.nativeEvent
+                              )
+                            }
+                          />
+                        </View>
+                      ) : null}
+                      <Text style={styles.messageText}>
+                        {responses[index].response}
+                      </Text>
+
+                      {/* Sources Section */}
+                      {responses[index].sourceNames &&
+                        responses[index].sourceLinks &&
+                        responses[index].sourceNames.length > 0 && (
+                          <View style={styles.sourcesContainer}>
+                            <Text style={styles.sourcesTitle}>Sources:</Text>
+                            {responses[index].sourceNames.map(
+                              (name: string, idx: number) => (
+                                <Pressable
+                                  key={idx}
+                                  onPress={() =>
+                                    Linking.openURL(
+                                      responses[index].sourceLinks[idx]
+                                    )
+                                  }
+                                  style={styles.sourceBox}>
+                                  <Text style={styles.sourceName}>{name}</Text>
+                                </Pressable>
+                              )
+                            )}
+                          </View>
+                        )}
+
+                      <Pressable
+                        onPress={() =>
+                          copyToClipboard(
+                            responses[index].response,
+                            index + 100
+                          )
+                        }
+                        style={styles.iconBtn}>
+                        {copyFeedback === index + 100 ? (
+                          <Check size={16} color="#10b981" />
+                        ) : (
+                          <Clipboard size={16} color="#6b7280" />
+                        )}
+                      </Pressable>
+                    </View>
+                  )
+                ) : (
+                  <View style={styles.loadingBubble}>
+                    <Text style={styles.loadingText}>Loading response...</Text>
+                  </View>
+                )}
+              </View>
+            ))
+          )}
+
+          {/* Small padding at bottom to ensure last message is visible above input box */}
+          <View style={{ height: 20 }} />
+        </ScrollView>
+
+        {/* Input Section */}
+        <View style={styles.inputContainer}>
+          <TextInput
+            value={prompt}
+            onChangeText={setPrompt}
+            onSubmitEditing={() =>
+              prompt.trim() && getLimelightResponse(prompt)
+            }
+            placeholder="Chat with Limelight"
+            style={styles.input}
+            placeholderTextColor="#9ca3af"
+          />
+          <Pressable
+            disabled={!prompt.trim()}
+            onPress={() => getLimelightResponse(prompt)}
+            style={[styles.sendBtn, !prompt.trim() && styles.sendBtnDisabled]}>
+            <SendHorizonal
+              size={20}
+              color={prompt.trim() ? "#10b981" : "#9ca3af"}
+            />
+          </Pressable>
+        </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#ffffff",
-    paddingTop: Platform.OS === "ios" ? 60 : 30, // enough for Dynamic Island / notch
-  },
-  scrollContent: {
-    padding: 20,
-    paddingBottom: 140,
-  },
-  intro: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 100,
-    gap: 12,
-  },
-  title: {
-    fontSize: 26,
-    fontWeight: "600",
-    color: "#111827",
-    textAlign: "center",
-  },
-  titleAccent: {
-    color: "#10b981",
-    fontWeight: "700",
-  },
-  version: {
-    fontSize: 14,
-    color: "#9ca3af",
-    fontWeight: "500",
-  },
-  subtitle: {
-    fontSize: 16,
-    color: "#6b7280",
-    textAlign: "center",
-    marginTop: 6,
-  },
-  grid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    gap: 12,
-    marginTop: 24,
-  },
-  card: {
-    backgroundColor: "#f0fdf4",
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    borderRadius: 16,
-    elevation: 1,
-    shadowColor: "#000",
-    shadowOpacity: 0.03,
-    shadowRadius: 2,
-  },
-  cardText: {
-    fontSize: 14,
-    fontWeight: "500",
-    color: "#047857",
-  },
-  userBubble: {
-    backgroundColor: "#e0f2fe",
-    padding: 12,
-    borderRadius: 16,
-    alignSelf: "flex-end",
-    marginVertical: 6,
-    maxWidth: "80%",
-    shadowColor: "#000",
-    shadowOpacity: 0.04,
-    shadowRadius: 2,
-  },
-  botBubble: {
-    backgroundColor: "#f3f4f6",
-    padding: 12,
-    borderRadius: 16,
-    alignSelf: "flex-start",
-    marginVertical: 6,
-    maxWidth: "90%",
-    shadowColor: "#000",
-    shadowOpacity: 0.04,
-    shadowRadius: 2,
-  },
-  errorBubble: {
-    backgroundColor: "#fef2f2",
-    padding: 12,
-    borderRadius: 16,
-    alignSelf: "flex-start",
-    marginVertical: 6,
-    maxWidth: "90%",
-  },
-  errorTitle: {
-    fontWeight: "600",
-    color: "#b91c1c",
-    marginBottom: 4,
-  },
-  errorText: {
-    color: "#991b1b",
-  },
-  imageWrapper: {
-    width: "100%",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  image: {
-    width: 320,
-    height: 180,
-    borderRadius: 16,
-    backgroundColor: "#e5e7eb",
-  },
-  messageText: {
-    fontSize: 15,
-    color: "#111827",
-    lineHeight: 20,
-  },
-  iconBtn: {
-    marginTop: 6,
-    alignSelf: "flex-end",
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    padding: 14,
-    paddingBottom: Platform.OS === "ios" ? 28 : 20,
-    backgroundColor: "#ffffff",
-    borderTopWidth: 1,
-    borderColor: "#e5e7eb",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-  input: {
-    flex: 1,
-    fontSize: 15,
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: "#d1d5db",
-    backgroundColor: "#f9fafb",
-    color: "#111827",
-  },
-  sendBtn: {
-    backgroundColor: "#ecfdf5",
-    padding: 10,
-    borderRadius: 999,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 
 export default LimelightMobile;
