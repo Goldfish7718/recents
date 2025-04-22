@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   navTitle: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "700",
     color: "#FFFFFF",
   },
