@@ -30,12 +30,10 @@ const LimelightMobile = () => {
     await ClipboardAPI.setStringAsync(text);
     setCopyFeedback(index);
 
-    // Show toast on Android
     if (Platform.OS === "android") {
       ToastAndroid.show("Copied to clipboard!", ToastAndroid.SHORT);
     }
 
-    // Reset copy feedback after 2 seconds
     setTimeout(() => {
       setCopyFeedback(null);
     }, 2000);
@@ -67,8 +65,10 @@ const LimelightMobile = () => {
     setPrompts(updatedPrompts);
     setPrompt("");
     try {
+      console.log(process.env.EXPO_PUBLIC_API_URL);
+
       const res = await axios.post(
-        `https://f206-117-217-70-255.ngrok-free.app/news/limelight/`,
+        `${process.env.EXPO_PUBLIC_API_URL}/news/limelight/` as string,
         {
           prompt: currentPrompt,
         }

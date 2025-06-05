@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "client.ReactNative",
-    "slug": "client.ReactNative",
+    "slug": "recents",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -15,7 +15,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.goldfish15019.recents"
     },
     "web": {
       "bundler": "metro",
@@ -32,10 +33,19 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-font",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "1900ba2f-a21e-43c3-8c88-02e2b98e1dd1"
+      }
+    },
+    "owner": "goldfish15019"
   }
 }
