@@ -133,12 +133,6 @@ export const getLimelightResponse = async (req, res) => {
     const summaryResponse = await summaryResult.response;
     const finalText = await summaryResponse.text();
 
-    // Step 4: Track usage
-    // await User.findOneAndUpdate(
-    //   { clerkId },
-    //   { $inc: { limelightRequests: 1 } }
-    // );
-
     const finalResponse = {
       response: finalText,
       sourceLinks: newsResponse.data.articles.map((article) => article.url),

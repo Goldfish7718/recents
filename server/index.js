@@ -27,7 +27,7 @@ const server = http.createServer(app);
 //     cors({
 //       credentials: true,
 //       origin: process.env.ORIGIN,
-//     })
+//     }),
 //   );
 // } else {
 app.use(cors());
